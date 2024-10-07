@@ -39,10 +39,9 @@ We'll introduce Haskell and then show some applications in JavaScript/TypeScript
 
 *even for impure, imperative languages!*
 
-## The Problem
+## Our problem
 
-Suppose in JavaScript, you want to paint to a canvas, and repaint whenever some
-state changes. This is an impure sample.
+Suppose you want to paint to a canvas, and repaint whenever some state changes.
 
 ```ts
 let position = { x: 0, y: 0 }
@@ -52,7 +51,7 @@ function paintCanvas(ctx: CanvasRenderingContext2D) {
 }
 ```
 
-## Let's assemble our monads
+## Our monads
 
 Evidently,
 * we'll have some impure code to paint on the canvas, and
@@ -94,21 +93,26 @@ function join<T>(nestedIO: IO<IO<T>>): IO<T> {
 
 `let` variables are a poor form of state. We can't observe when they change!
 
-My favorite JavaScript library for state is `jotai`. "Atoms" define relations
-between data, and "Stores" hold the actual data.
+My favorite JavaScript library for state is `jotai`. _Atoms_ define relations
+between data, and _Stores_ hold the actual data.
 
 ```ts
 const store = createStore()
 const positionAtom = atom({ x: 0, y: 0 })
 store.get(positionAtom)  // "{ x: 0, y: 0 }"
 
-const xPositionAtom = atom((get) => get(positionAtom).x);
+const xPositionAtom = atom((get) => {
+  const position = get(positionAtom)
+  return position.x
+});
 
-store.sub(xPositionAtom, () => console.log('x position changed'))
-store.set(positionAtom, { x: 2, y: 2 })  // "x position changed"
+store.sub(xPositionAtom, () => {
+  console.log('x is now', store.get(xPositionAtom))
+})
+store.set(positionAtom, { x: 2, y: 2 })  // "x is now 2"
 ```
 
-## Let's make sure we have a monad.
+## Let's make sure we have a monad
 
 These are our `map` and `join` functions:
 ```ts
