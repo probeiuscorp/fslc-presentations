@@ -7,6 +7,12 @@ author: Caleb Stimpson
 This presentation will be all about functional programming, especially of the
 pure variety.
 
+## Knowledge we will be building off of
+
+We'll spend most of the presentation using JavaScript/TypeScript, notably making
+extensive use of anonymous functions. Hopefully you have some familiarity with
+these tools, but if you don't, questions are always welcome.
+
 ## What we'll cover
 
 * Monads in theory: a light introduction in modern JavaScript/TypeScript
@@ -15,6 +21,10 @@ pure variety.
 ## Why understand (pure) functional programming?
 
 * **Hardware is cheap, bugs are not.**
+
+### Source
+
+The source of this presentation is on GitHub, at github.com/probeiuscorp/fslc-presentations.
 
 ---
 
