@@ -7,13 +7,10 @@ author: Caleb Stimpson
 This presentation will be all about functional programming, especially of the
 pure variety.
 
-We'll introduce Haskell and then show some applications in JavaScript/TypeScript.
-
 ## What we'll cover
 
-* Haskell, algebraic data types, and monoids
-* Monads
-* Practical monads for impure languages
+* Monads in theory: a light introduction in modern JavaScript/TypeScript
+* Applied monads: live-coding session of using monads to solve problems
 
 ## Why understand (pure) functional programming?
 
@@ -21,11 +18,7 @@ We'll introduce Haskell and then show some applications in JavaScript/TypeScript
 
 ---
 
-# Part 1: Haskell, Algebraic Data Types, and Monoids
-
----
-
-# Part 2: Monads
+# Part 1: Monads
 
 > _"Monads are just a monoid in the category of endofunctors, what's the problem?"_
 
@@ -327,13 +320,13 @@ const ui = friends.flatMap(({ name, favorite }) => {
 
 ---
 
-# Part 3: Practical monads
+# Part 2: Applied monads
+
+_How monads can help you solve problems practically, even in impure languages._
 
 ---
 
-# Practical monads
-
-*even for impure, imperative languages!*
+# Applying monads
 
 ## Our problem
 
