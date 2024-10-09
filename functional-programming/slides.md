@@ -378,11 +378,11 @@ These are our `map` and `join` functions:
 ```ts
 type IO<T> = () => T
 
-function map<T, V>(io: IO<T>, transformContents: (data: T) => V): IO<V> {
+function mapIO<T, V>(io: IO<T>, transformContents: (data: T) => V): IO<V> {
   return () => transformContents(io())
 }
 
-function join<T>(nestedIO: IO<IO<T>>): IO<T> {
+function joinIO<T>(nestedIO: IO<IO<T>>): IO<T> {
   return () => nestedIO()()
 }
 ```
@@ -416,11 +416,11 @@ store.set(positionAtom, { x: 2, y: 2 })  // "x is now 2"
 
 These are our `map` and `join` functions:
 ```ts
-function map<T, V>(anAtom: Atom<T>, transformContents: (data: T) => V): Atom<V> {
+function mapAtom<T, V>(anAtom: Atom<T>, transformContents: (data: T) => V): Atom<V> {
   return atom((get) => transformContents(get(anAtom)))
 }
 
-function join<T>(nestedAtom: Atom<Atom<T>>): Atom<T> {
+function joinAtom<T>(nestedAtom: Atom<Atom<T>>): Atom<T> {
   return atom((get) => get(get(nestedAtom)))
 }
 ```
