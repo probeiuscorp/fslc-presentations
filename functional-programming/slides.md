@@ -22,6 +22,9 @@ these tools, but if you don't, questions are always welcome.
 ## Why understand (pure) functional programming?
 
 * **Hardware is cheap, bugs are not.**
+* (More) purity can help you keep your code from becoming spaghetti; so
+* (More) purity speeds up development, iteration, improvement and expansion.
+* (More) purity is a very effective heuristic. When two solutions seem the same, the purer solution is a good call.
 
 ### Source
 
