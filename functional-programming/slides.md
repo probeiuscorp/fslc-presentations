@@ -17,6 +17,7 @@ these tools, but if you don't, questions are always welcome.
 
 * Monads in theory: a light introduction in modern JavaScript/TypeScript
 * Applied monads: live-coding session of using monads to solve problems
+* Haskell: brief journey through the highlights of Haskell
 
 ## Why understand (pure) functional programming?
 
@@ -422,4 +423,190 @@ function map<T, V>(anAtom: Atom<T>, transformContents: (data: T) => V): Atom<V> 
 function join<T>(nestedAtom: Atom<Atom<T>>): Atom<T> {
   return atom((get) => get(get(nestedAtom)))
 }
+```
+
+---
+
+# Part 3: Haskell
+
+---
+
+# Why Haskell
+
+The most important thing to understand about Haskell is that its purpose is
+much different than the purpose of most languages.
+
+Haskell is a universal but practical model of computation, **not** a language
+for writing drivers or UNIX-style command-line utilities. In this sense, Haskell
+can be thought of as _the_ general purpose language — in contrast to C, Java,
+Python and JavaScript as _Domain Specific Languages_.
+
+C and Rust will always have a place for as long as hardware stays the same.
+
+# What Haskell
+
+Haskell is built on functions, in the math sense:
+* Haskell functions are **pure**: they don't write to stdout or create a file when they are evaluated.
+* Haskell functions are **deterministic**: they don't do something different depending on the time of day or the state of the stock market.
+
+Like math, Haskell is **immutable**. f(_x_) won't change your _x_!
+
+---
+
+# Haskell sample
+
+Haskell is rooted in math, so let's see what the quadratic formula looks like
+in Haskell. For now we'll just consider one root.
+
+```hs
+quadraticFormula :: (Double, Double, Double) -> Double
+quadraticFormula = \(a, b, c) -> ((-b) + sqrt (b * b - 4 * a * c)) / (2 * a)
+```
+
+We can move the arguments of the function expression to the LHS of `=`.
+```hs
+quadraticFormula :: (Double, Double, Double) -> Double
+quadraticFormula (a, b, c) = ((-b) + sqrt (b * b - 4 * a * c)) / (2 * a)
+```
+
+Let's try to consider both possible roots. One of the coolest features of Haskell
+is that operators are just functions like any other, which means we can pass
+either addition or subtraction itself as an argument.
+```hs
+quadraticFormula :: (Double, Double, Double) -> (Double, Double)
+quadraticFormula (a, b, c) = (oneCase (-), oneCase (+))
+  where
+    oneCase :: (Double -> Double -> Double) -> Double
+    oneCase plusOrMinus = ((-b) `plusOrMinus` sqrt (b * b - 4 * a * c)) / (2 * a)
+```
+
+So far we've been ignoring no-root cases. Let's consider them too.
+```hs
+quadraticFormula :: (Double, Double, Double) -> [Double]
+quadraticFormula (a, b, c) = if discriminant > 0
+  then [oneCase (-), oneCase (+)]
+  else if discriminant == 0
+    then [oneCase (+)]
+    else []
+  where
+    oneCase :: (Double -> Double -> Double) -> Double
+    oneCase plusOrMinus = ((-b) `plusOrMinus` sqrt discriminant) / (2 * a)
+    discriminant = b * b - 4 * a * c
+```
+
+---
+
+# Modeling problems
+
+## Case problem
+
+We want to run Hearts, a game of playing cards. We just started planning, and haven't written any code yet:
+* we haven't yet decided if we want to play it in a GUI or a CLI,
+* we only plan on supporting hotseat, but would like it to be easy to add versus-computer or online multiplayer
+
+Seems like it's time to bust out the UML and start asking tough questions like
+* (some class hierarchy problems)
+
+We just _can't_ mess up our class hierarchy now, or it's going to be so much pain later!
+
+## Analysis paralysis
+
+We have so many tools, yet such few guiding principles.
+
+---
+
+# Modeling problems
+
+Let's put aside trying to solve every problem in our head, and start describing
+our data. We'll definitely need a `Card`, which will be made of a `Rank` and a
+`Suit`.
+
+```hs
+data Suit = Hearts | Diamonds | Clubs | Spades
+  deriving (Eq, Show)
+
+data Rank
+  = R1 | R2 | R3 | R4 | R5 | R6 | R7 | R8 | R9 | R10
+  | Jack | Queen | King
+  deriving (Eq, Show)
+
+data Card = Card Suit Rank
+  deriving (Eq, Show)
+```
+
+We've decided to use this `Rank` enum instead of integers to be a more typesafe,
+but that means we won't be able to use `>`, unless...
+
+```hs
+instance Ord Rank
+  compare r1 r2 = compare (intOfRank r1) (intOfRank r2)
+```
+
+In Haskell, we can use `>` and friends on any type which defines an instance of
+`Ord`. We've heard instance before in this presentation, in the context of
+Array's functor instance. Both uses are referring to the same thing — `Ord`
+and `Functor` are both _typeclasses_, as are `Eq` and `Show`. The `deriving`
+parts of our data declarations tell Haskell to figure out the implementation of
+the instances for us.
+
+Let's finish off our data by defining `intOfRank`. Many functional programming
+languages provide an extremely expressive feature called _pattern matching_:
+```hs
+intOfRank :: Rank -> Int
+intOfRank R1 = 1
+intOfRank R2 = 2
+intOfRank R3 = 3
+-- ...
+intOfRank Jack = 11
+intOfRank Queen = 12
+intOfRank King = 13
+```
+
+---
+
+# Modeling problems
+
+A deck is just a collection of cards. We'll use lists for simplicity, but later
+we may find that using sets is more useful. For historical reasons, Haskell uses
+this inconsistent syntax for list types:
+```hs
+type Deck = [Card]
+```
+
+We know we'll need a function to count the number of hearts in a Deck. We'll
+start with an `isHeart` function and give `countHeartsInDeck` a signature.
+Counting the number of items in a list which match a condition seems like a
+common enough problem there might just be a function for it in the standard
+library. We're new to the whole Haskell thing, so we don't have the entire
+standard library memorized.
+
+So, let's check **Hoogle** to see if any functions with a signature like
+`(a -> Bool) -> [a] -> Int` exist. While we're at it, we can set our
+implementation to `undefined` so the IDE stops bothering us. This will make it
+clear to us later that we aren't done yet.
+
+```hs
+isHeart :: Card -> Bool
+isHeart (Card Hearts _) = True
+isHeart _ = False
+
+countHeartsInDeck :: Deck -> Int
+countHeartsInDeck = undefined
+```
+
+From Hoogle, it seems we're out of luck. We'll have to do it ourself.
+```hs
+countHeartsInDeck deck = length (filter isHeart deck)
+```
+
+When we're just passing the result of one function to another, we can use
+_function composition_.
+```hs
+countHeartsInDeck deck = (length . filter isHeart) deck
+```
+
+Notice that our function is accepting a parameter just to pass it to another
+function. This means both functions are actually equal!
+```hs
+countHeartsInDeck = length . filter isHeart
 ```
