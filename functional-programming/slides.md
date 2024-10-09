@@ -182,7 +182,7 @@ declare function promiseThen<T, V>(this: Promise<T>, transformContents: (data: T
 
 (note that these types have been _mildly_ simplified)
 
-This pattern is important enough that it has a name: both Array and Promise are
+This pattern is important enough that it has a name: Array and Promise are both
 a _functor_.
 
 ## What is a functor?
@@ -195,45 +195,45 @@ type SomeFunctor<T> = /* your structure */
 declare function mapSomeFunctor<T, V>(structure: SomeFunctor<T>, transformContents: (data: T) => V): SomeFunctor<V>
 ```
 
-Let's take a look at another functor: `Maybe`. `Maybe` is one solution out of
-the many solutions that exist for _null_.
-
 ---
 
 # Maybe
 
+We'll leave Array and Promise behind for now, and take a look at Maybe, one
+solution out of the many that exist for nullability.
+
 In JavaScript, `Maybe` could be implemented like so:
 ```ts
-type Some<T>  = { type: 'some', data: T }
-type None     = { type: 'none' }
-type Maybe<T> = Some<T> | None
+type Just<T>  = { type: 'just', data: T }
+type Nothing  = { type: 'nothing' }
+type Maybe<T> = Just<T> | Nothing
 
 // Some useful constructurs
-const some = (data: T): Some<T> => ({ type: 'some', data })
-const none: None = { type: 'none' }
+const just = (data: T): Just<T> => ({ type: 'just', data })
+const nothing: Nothing = { type: 'nothing' }
 
 // Converting from null and undefined
 function fromNullish<T>(nullish: T | null | undefined): Maybe<T> {
-  if(nullish === null || nullish === undefined) return none
-  return some(nullish)
+  if(nullish === null || nullish === undefined) return nothing
+  return just(nullish)
 }
 function orNull<T>(maybe: Maybe<T>): T | null {
-  if(maybe.type === 'none') return null
+  if(maybe.type === 'nothing') return null
   return maybe.data
 }
 
 // Example usage
 function getFirstElementOfArray<T>(array: T[]): Maybe<T> {
-  if(array.length === 0) return none
-  return some(array[0])
+  if(array.length === 0) return nothing
+  return just(array[0])
 }
 ```
 
 At this time however, our `Maybe` is only better than `undefined` in that it can nest other `Maybe`'s.
 
 By nesting, I mean that `getFirstElementOfArray` will:
-* return `none` for an empty array
-* return `some(undefined)` for an array with only one element, undefined
+* return `nothing` for an empty array
+* return `just(undefined)` for an array with only one element, undefined
 
 We would not be able to distinguish those cases if we used `undefined`. We'll
 see later that this is unexpectedly important.
@@ -248,10 +248,10 @@ known as its _functor instance_.
 ```ts
 // Maybe's functor instance
 function mapMaybe<T, V>(maybe: Maybe<T>, transformContents: (data: T) => V): Maybe<V> {
-  if(maybe.type === 'none') {
+  if(maybe.type === 'nothing') {
     return maybe
   } else {
-    return some(transformContents(maybe.data))
+    return just(transformContents(maybe.data))
   }
 }
 ```
@@ -278,7 +278,7 @@ Because we're lazy, let's just make a helper function to flatten those nested
 
 ```ts
 function joinMaybe(nestedMaybe: Maybe<Maybe<T>>): Maybe<T> {
-  if(nestedMaybe.type === 'none') {
+  if(nestedMaybe.type === 'nothing') {
     return nestedMaybe
   } else {
     return nestedMaybe.data
