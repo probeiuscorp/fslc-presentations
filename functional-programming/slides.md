@@ -180,7 +180,7 @@ declare function arrayMap   <T, V>(this: Array<T>,   transformContents: (data: T
 declare function promiseThen<T, V>(this: Promise<T>, transformContents: (data: T) => V): Promise<V>
 ```
 
-(note that these types have been _mildly_ simplified)
+(you may know that `.map` and `.then` have a few more features than these types suggest)
 
 This pattern is important enough that it has a name: Array and Promise are both
 a _functor_.
@@ -263,10 +263,10 @@ Suppose we had a 2D array:
 const exponentSeries = [[1, 2, 4, 8], [1, 3, 9, 27], [1, 4, 16, 64]]
 ```
 
-We would like to safely try to get the first cell:
+We would like to safely try to get the first cell.
 ```ts
 const maybe2sSeries: Maybe<number[]> = getFirstElementOfArray(exponentSeries)
-const maybeFirstCell: Maybe<Maybe<number[]>> = mapMaybe(maybe2sSeries, getFirstElementOfArray)
+const maybeFirstCell: Maybe<Maybe<number>> = mapMaybe(maybe2sSeries, getFirstElementOfArray)
 ```
 
 Oh no! We're _mostly_ there but `maybeFirstCell` is of type `Maybe<Maybe<...>>`,
