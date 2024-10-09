@@ -432,6 +432,10 @@ function joinAtom<T>(nestedAtom: Atom<Atom<T>>): Atom<T> {
 
 # Part 3: Haskell
 
+> _"An open-source product of more than twenty years of cutting-edge research, it allows rapid development of robust, concise, correct software."_
+
+— [](https://wiki.haskell.org)
+
 ---
 
 # Why Haskell
