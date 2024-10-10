@@ -28,7 +28,7 @@ these tools, but if you don't, questions are always welcome.
 
 ### Source
 
-The source of this presentation is on GitHub, at github.com/probeiuscorp/fslc-presentations.
+The source of this presentation is on GitHub, at https://github.com/probeiuscorp/fslc-presentations.
 
 ---
 
