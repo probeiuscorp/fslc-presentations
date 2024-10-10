@@ -430,6 +430,14 @@ function joinAtom<T>(nestedAtom: Atom<Atom<T>>): Atom<T> {
 
 ---
 
+# Let's get codin'
+
+If you'd like to follow along, open this StackBlitz:
+
+https://stackblitz.com/edit/vitejs-vite-dttfki?file=src%2Fmain.ts,src%2Fcreature.ts,src%2Fcanvas.ts&terminal=dev
+
+---
+
 # Part 3: Haskell
 
 > _"An open-source product of more than twenty years of cutting-edge research, it allows rapid development of robust, concise, correct software."_
