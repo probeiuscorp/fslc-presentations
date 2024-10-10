@@ -478,6 +478,65 @@ quadraticFormula :: (Double, Double, Double) -> Double
 quadraticFormula = \(a, b, c) -> ((-b) + sqrt (b * b - 4 * a * c)) / (2 * a)
 ```
 
+---
+
+# Haskell sample
+
+Haskell is rooted in math, so let's see what the quadratic formula looks like
+in Haskell. For now we'll just consider one root.
+
+```hs
+quadraticFormula :: (Double, Double, Double) -> Double
+quadraticFormula = \(a, b, c) -> ((-b) + sqrt (b * b - 4 * a * c)) / (2 * a)
+```
+
+We can move the arguments of the function expression to the LHS of `=`.
+```hs
+quadraticFormula :: (Double, Double, Double) -> Double
+quadraticFormula (a, b, c) = ((-b) + sqrt (b * b - 4 * a * c)) / (2 * a)
+```
+
+---
+
+# Haskell sample
+
+Haskell is rooted in math, so let's see what the quadratic formula looks like
+in Haskell. For now we'll just consider one root.
+
+```hs
+quadraticFormula :: (Double, Double, Double) -> Double
+quadraticFormula = \(a, b, c) -> ((-b) + sqrt (b * b - 4 * a * c)) / (2 * a)
+```
+
+We can move the arguments of the function expression to the LHS of `=`.
+```hs
+quadraticFormula :: (Double, Double, Double) -> Double
+quadraticFormula (a, b, c) = ((-b) + sqrt (b * b - 4 * a * c)) / (2 * a)
+```
+
+Let's try to consider both possible roots. One of the coolest features of Haskell
+is that operators are just functions like any other, which means we can pass
+either addition or subtraction itself as an argument.
+```hs
+quadraticFormula :: (Double, Double, Double) -> (Double, Double)
+quadraticFormula (a, b, c) = (oneCase (-), oneCase (+))
+  where
+    oneCase :: (Double -> Double -> Double) -> Double
+    oneCase plusOrMinus = ((-b) `plusOrMinus` sqrt (b * b - 4 * a * c)) / (2 * a)
+```
+
+---
+
+# Haskell sample
+
+Haskell is rooted in math, so let's see what the quadratic formula looks like
+in Haskell. For now we'll just consider one root.
+
+```hs
+quadraticFormula :: (Double, Double, Double) -> Double
+quadraticFormula = \(a, b, c) -> ((-b) + sqrt (b * b - 4 * a * c)) / (2 * a)
+```
+
 We can move the arguments of the function expression to the LHS of `=`.
 ```hs
 quadraticFormula :: (Double, Double, Double) -> Double
