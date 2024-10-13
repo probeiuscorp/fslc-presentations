@@ -7,17 +7,22 @@ author: Caleb Stimpson
 This presentation will be all about functional programming, especially of the
 pure variety.
 
+## What we'll cover
+
+* First half (70m)
+  * Monads in theory: a light introduction in modern JavaScript/TypeScript
+  * Applied monads: live-coding session of using monads to solve problems
+  * Haskell: brief journey through the highlights of Haskell
+* Second half (40m)
+  * Recursive data types
+  * Monoids
+  * Lambda calculus
+
 ## Knowledge we will be building off of
 
 We'll spend most of the presentation using JavaScript/TypeScript, notably making
 extensive use of anonymous functions. Hopefully you have some familiarity with
 these tools, but if you don't, questions are always welcome.
-
-## What we'll cover
-
-* Monads in theory: a light introduction in modern JavaScript/TypeScript
-* Applied monads: live-coding session of using monads to solve problems
-* Haskell: brief journey through the highlights of Haskell
 
 ## Why understand (pure) functional programming?
 
