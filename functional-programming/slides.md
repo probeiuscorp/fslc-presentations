@@ -14,8 +14,7 @@ pure variety.
   * Applied monads: live-coding session of using monads to solve problems
   * Haskell: brief journey through the highlights of Haskell
 * Second half (40m)
-  * Recursive data types
-  * Monoids
+  * Recursive data types & Monoids
   * Lambda calculus
 
 ## Knowledge we will be building off of
@@ -798,10 +797,121 @@ Haskell's most distinguishing features (in my opinion):
 ## Next up
 
 If you'd like to stick around for the second half, we'll cover:
-* Recursive Algebraic Data Types
-* Monoids
+* Recursive Algebraic Data Types (ADTs) & Monoids
 * Lambda Calculus
 
 ## Source
 
 https://github.com/probeiuscorp/fslc-presentations
+
+---
+
+# Recursive ADTs
+
+Back in the quadratic formula sample, we made some lists. What are these lists
+made of, and how can we use them if we can't mutate some `i` index?
+```hs
+data MyList a = MyListItem a (MyList a) | MyListEnd
+
+-- Sample usages
+emptyList = MyListEnd
+oneItemList = MyListItem "only data" (MyListEnd)
+twoItemList = MyListItem "first data" (MyListItem "second data" (MyListEnd))
+```
+
+How do we use recursive ADTs? Recursive functions!
+```hs
+lengthOfList :: MyList a -> Int
+lengthOfList (MyListItem head rest) = 1 + lengthOfList rest
+lengthOfList MyListEnd = 0
+```
+
+In standard Haskell, `MyListItem` is `:` and `MyListEnd` is `[]`:
+```hs
+lengthOfList :: [a] -> Int
+lengthOfList (x:xs) = 1 + lengthOfList xs
+lengthOfList [] = 0
+```
+
+Here's a sample binary tree.
+```hs
+data BinaryTree a = BNode a (BinaryTree a) (BinaryTree a) | BEmpty
+
+sampleTree = BinaryTree "parent" (BinaryTree "left" BEmpty BEmpty) (BinaryTree "right" BEmpty BEmpty)
+```
+
+---
+
+# Lists
+
+For practice, let's write a function to find the max of a list of numbers.
+```hs
+maxOfList :: [Int] -> Int
+maxOfList (x:xs) = max x (maxOfList xs)  -- `max` returns the greatest of its two arguments
+maxOfList [] = 0
+```
+
+Finally, let's write a `Functor` instance for lists.
+```hs
+mapList :: (a -> b) -> [a] -> [b]
+mapList f (x:xs) = (f x) : (mapList f xs)
+mapList f [] = []
+```
+
+All these functions are eerily similar. Can we abstract away the pattern
+matching?
+```hs
+foldList :: (a -> b -> b) -> b -> [a] -> b
+foldList combine ifEmpty (x:xs) = combine x (foldList combine ifEmpty xs)
+foldList combine ifEmpty [] = ifEmpty
+
+-- Now,
+maxOfList = foldList max 0
+lengthOfList = foldList (const (+1)) 0
+mapList f = foldList ((:) . f) []
+```
+
+In standard Haskell, our `foldList` is `foldr`.
+
+I like to call functions of the type `a -> b -> b` _reducers_. The name comes
+from JavaScript's Array `.reduce`.
+
+If you've ever done front-end development with React, you're probably familiar
+with Redux. Redux also uses the term reducer, for its functions of the
+signature: `(state: TState, action: TAction) => TState`. The name also comes
+from `.reduce`. All these concepts are interconnected!
+
+---
+
+# Monoids
+
+With functions like `a -> b -> b`, what happens when `a` and `b` happen to be
+the same?
+
+Functions of the type `a -> a -> a` relate to _monoids_, a certain algebraic
+structure (bonus points: monoids have already been mentioned in this
+presentation before).
+
+What is a monoid? The exact mathematical definition is a bit involved for us
+here, but in essence a monoid is:
+* a set _S_,
+* a binary function (•) which works on _S_, and
+* an identity element _e_.
+
+Example monoids:
+ * _S_ = non-negative numbers, (•) = addition, _e_ = 0.
+ * _S_ = strings, (•) = string concatenation, _e_ = empty string
+
+Here is the monoid as a typeclass in Haskell:
+```hs
+class Monoid a where
+  mempty :: a
+  mappend :: a -> a -> a
+```
+
+Maybe I'm the only one who gets a kick out of abstract algebra, but is that not
+SO COOL!
+
+Throughout Haskell's standard libraries and public packages you'll find
+mathematics harnessed to improve our code, our efficiency and ultimately our
+lives.
