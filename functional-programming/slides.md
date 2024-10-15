@@ -689,3 +689,90 @@ function. This means both functions are actually equal!
 ```hs
 countHeartsInDeck = length . filter isHeart
 ```
+
+# I/O in Haskell
+
+Haskell functions are pure, so they can't run I/O, and Haskell *only* has
+functions and inert data. So it would seem Haskell can't run I/O — and you'd be
+correct.
+
+Haskell may not be able to run I/O, but someone else can: your machine! Let's
+prepare instructions for your machine to write to stdout:
+
+```hs
+main :: IO ()
+main = putStrLn "Hello World"
+```
+
+We're exporting this `IO` expression as `main`, which our runtime recognizes,
+imports and executes.
+
+Let's work up to echoing from stdin. We'll need these functions:
+```hs
+putStrLn :: String -> IO ()  -- write to stdout
+getLine :: IO String  -- read from stdin
+```
+
+In this presentation we've already mentioned I/O as a monad. Here, `>>=` is like
+`.flatMap`.
+
+```hs
+getThenPutLn :: IO ()
+getThenPutLn = getLine >>= putStrLn  -- getLine.flatMap(putStrLn)
+```
+
+`>>=` is defined like so:
+```hs
+(>>=) someMonadValue someFunction = join (fmap someFunction someMonadValue)
+```
+
+or, more compactly and idiomatically:
+```hs
+(>>=) m f = join (fmap f m)
+```
+
+---
+
+# I/O forever
+
+We want to run some IO forever. How can we do that with no `while(true)` loops?
+As with any hard problem, let's try the simplest case.
+
+Here's how we could run it twice:
+```hs
+echoForever :: IO ()
+echoForever = getThenPutLn >>= (\_ -> getThenPutLn)
+```
+
+Notice that `getThenPutLn` and `echoForever` are both of type `IO ()`. What if
+we substituted the second `getThenPutLn` for `echoForever`?
+```hs
+echoForever :: IO ()
+echoForever = getThenPutLn >>= (\_ -> echoForever)
+```
+
+In most languages, a recursive function with no terminating condition would hang
+forever until memory runs out. Haskell is different.
+
+## Lazy evaluation
+
+Haskell uses _lazy evaluation_, which is the last notable feature we'll cover.
+Lazy evaluation means Haskell won't try to evaluate the entirety of
+`echoForever` (which would hang), and will instead evaluate the next level of
+`getThenPutLn` only after the last one "finishes".
+
+Lazy evaluation has a few advantages, especially for a language as abstract as
+Haskell:
+* Infinite data structures, like `echoForever`, need no special consideration
+* If we made our own `&&` operator, it would short-circuit like the language-level feature `&&` usually is
+* Passing extra parameters doesn't hurt: if the consumer doesn't need it, they won't have to pay the price of evaluating it
+
+Most of all, it enables composition. Consider this problem:
+```hs
+aVeryBigDeck = -- suppose it was millions of cards long
+firstFiveHearts = take 5 (filter isHeart aVeryBigDeck)
+```
+
+Without lazy evaluation, we would've filtered the entire list to only take the
+first five. We could've made a `takeFiltered` function, but we certainly don't
+want to rewrite every combination of standard functions!
