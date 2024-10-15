@@ -776,3 +776,32 @@ firstFiveHearts = take 5 (filter isHeart aVeryBigDeck)
 Without lazy evaluation, we would've filtered the entire list to only take the
 first five. We could've made a `takeFiltered` function, but we certainly don't
 want to rewrite every combination of standard functions!
+
+---
+
+# First half wrap-up
+
+That's it for the first half!
+
+## Recap
+
+We looked at monads both in theory and in practice, and looked at some of
+Haskell's most distinguishing features (in my opinion):
+* Purity and immutability
+* Operators are just functions which can be user-defined
+* A taste of Algebraic Data Types (those `data` declarations), along with
+* Typeclassing
+* Pattern matching
+* Function composition
+* Lazy evaluation
+
+## Next up
+
+If you'd like to stick around for the second half, we'll cover:
+* Recursive Algebraic Data Types
+* Monoids
+* Lambda Calculus
+
+## Source
+
+https://github.com/probeiuscorp/fslc-presentations
