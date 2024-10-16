@@ -915,3 +915,112 @@ SO COOL!
 Throughout Haskell's standard libraries and public packages you'll find
 mathematics harnessed to improve our code, our efficiency and ultimately our
 lives.
+
+---
+
+# Lambda calculus
+
+On the topic of math and functional programming, let's pay a brief visit to the
+beautiful world of _lambda calculus_.
+
+In the 1930's, two different models for the theory of computability emerged:
+* Turing machines, pioneered by Alan Turing
+* Lambda calculus, pioneered by Alonzo Church
+
+Both are capable of computing all things computable.
+
+Haskell, as you may have guessed, is built off of lambda calculus. As its
+influence on Haskell — and what "lambda" now means (in languages like Python) —
+would suggest, lambda calculus is all about unary functions.
+
+Unlike Haskell, lambda calculus _only_ has functions. This is the simplest
+lambda:
+
+```
+λx. x
+```
+
+It evaluates to exactly what it is given. What can we give it? Other functions.
+We _only_ have functions.
+
+## The entire kitchen sink
+
+We separate arguments from the target function with spaces, like in Haskell.
+```
+λf. λa. f a
+```
+
+To save us some writing, we can fold up multiple nested functions with this
+handy syntax:
+```
+λf a. f a
+```
+
+And there we have it! You now know all of (simply untyped) lambda calculus'
+syntax.
+
+---
+
+# Data in lambda calculus
+
+## Booleans
+
+Notably, we're lacking data, or anything that resembles it. Let's start with the
+simplest: booleans.
+
+What _is_ a boolean? We're not in the business of ontology, so let's think of it
+as a _choice_. We can use a boolean to decide between two options. This seems
+workable:
+
+```
+T = λx y. x
+F = λx y. y
+```
+
+Surely we'll need some logical operators. Note that in the following samples I
+will be using names (like `T` and `F`) which are in some sort of "global scope".
+Lambda calculus does **not** necessarily allow this. We'll address this later.
+
+```
+not = λk. k F T
+and = λx y. x y F
+or  = λx y. x T y
+xor = λx y. or (and (not x) y) (and x (not y))
+```
+
+## Natural numbers
+
+Now, what _is_ a natural number? Certainly a valid stance is an amount of
+function applications.
+
+```
+0 = λf a. a
+1 = λf a. f a
+2 = λf a. f (f a)
+3 = λf a. f (f (f a))
+```
+
+Some operations:
+```
+succ = λx. λf a. f (x f a)
+add  = λx y. x succ y
+mult = λx y. λf a. x (y f) a
+```
+
+---
+
+# Final thoughts on lambda calculus
+
+Let's return to the issue of global scope. Lambda calculus does not offer a
+global scope, or `where` clauses.
+
+Here's `and` written in terms of `F` with no reliance on a global scope:
+```
+(λF. λx y. x y F) (λx y. y)
+```
+
+We define a function and then immediately evaluate it with `F`'s definition,
+binding the definition to `F`.
+
+This pattern can be used in any language with function expressions and allows us
+to create bindings entirely in expressions.
