@@ -1071,3 +1071,10 @@ binding the definition to `F`.
 
 This pattern can be used in any language with function expressions and allows us
 to create bindings entirely in expressions.
+
+## And that's it!
+
+Any questions?
+
+### Source
+https://github.com/probeiuscorp/fslc-presentations
