@@ -689,6 +689,8 @@ function. This means both functions are actually equal!
 countHeartsInDeck = length . filter isHeart
 ```
 
+---
+
 # I/O in Haskell
 
 Haskell functions are pure, so they can't run I/O, and Haskell *only* has
