@@ -338,6 +338,53 @@ const ui = friends.flatMap(({ name, favorite }) => {
 
 ---
 
+# Monad review
+
+A functor is a structure for which you can implement a function like this:
+```ts
+type SomeStructure<T> = /* your structure */
+declare function mapStructure<T, V>(structure: SomeStructure<T>, transformContents: (data: T) => V): SomeStructure<V>
+```
+
+Some functors are monads, if you can additionally implement a function like this:
+```ts
+declare function joinStructure<T>(nestedStructure: SomeStructure<SomeStructure<T>>): SomeStructure<T>
+```
+
+## Further thought
+
+Functors are probably the most self-evident structure around. Their most
+apparent problem is that combining distinct structures gets ugly fast:
+
+```ts
+const maybeFirstName: Maybe<string> = just('jane')
+const maybeLastName: Maybe<string> = nothing
+const maybeName: Maybe<Maybe<string>> = mapMaybe(maybeFirstName, (firstName) => {
+  return mapMaybe(maybeLastName, (lastName) => {
+    return firstName + ' ' + lastName
+  })
+})
+```
+
+Monads are the most obvious solution to this functor problem.
+
+What's interesting is to find patterns between functors which are monads and
+functors which are not monads:
+* **lists** are functors, and monads.
+* **trees** are functors, but not monads.
+
+What sets lists apart from trees? Both can be used to store multiple things in one
+thing. **From one perspective**, lists can be thought of as representing the
+_concept of many things_, where trees are just an arrangement of many things.
+Extending this to the monads we've covered so far:
+* list represents the _concept of many things_,
+* promise represents the _concept of asynchronicity_,
+* maybe represents the _concept of failing_.
+
+Once we have the appropriate concept, we can freely combine.
+
+---
+
 # Part 2: Applied monads
 
 _How monads can help you solve problems practically, even in impure languages._
