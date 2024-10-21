@@ -485,7 +485,7 @@ function joinAtom<T>(nestedAtom: Atom<Atom<T>>): Atom<T> {
 
 If you'd like to follow along, open this StackBlitz:
 
-https://stackblitz.com/edit/vitejs-vite-dttfki?file=src%2Fmain.ts,src%2Fcreature.ts,src%2Fcanvas.ts&terminal=dev
+https://stackblitz.com/edit/vitejs-vite-dttfki?file=src%2Fmain.ts,src%2Fcreature.ts
 
 ---
 
