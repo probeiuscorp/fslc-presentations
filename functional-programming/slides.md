@@ -582,10 +582,8 @@ We want to run Hearts, a game of playing cards. We just started planning, and ha
 * we haven't yet decided if we want to play it in a GUI or a CLI,
 * we only plan on supporting hotseat, but would like it to be easy to add versus-computer or online multiplayer
 
-Seems like it's time to bust out the UML and start asking tough questions like
-* (some class hierarchy problems)
-
-We just _can't_ mess up our class hierarchy now, or it's going to be so much pain later!
+Seems like it's time to bust out the UML. We just _can't_ mess up our class
+hierarchy now, or it's going to be so much pain later!
 
 ## Analysis paralysis
 
