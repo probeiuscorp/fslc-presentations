@@ -965,10 +965,10 @@ syntax.
 
 # Data in lambda calculus
 
-## Booleans
-
 Notably, we're lacking data, or anything that resembles it. Let's start with the
 simplest: booleans.
+
+## Booleans
 
 What _is_ a boolean? We're not in the business of ontology, so let's think of it
 as a _choice_. We can use a boolean to decide between two options. This seems
@@ -992,7 +992,7 @@ xor = λx y. or (and (not x) y) (and x (not y))
 
 ## Natural numbers
 
-Now, what _is_ a natural number? Certainly a valid stance is an amount of
+Now, what _is_ a natural number? Certainly a valid perspective is an amount of
 function applications.
 
 ```
