@@ -180,8 +180,8 @@ function uiFromFriend(friendName: string): UI {
 Array `.map` and Promise `.then` have suspisciously similar types:
 
 ```ts
-declare function arrayMap   <T, V>(this: Array<T>,   transformContents: (data: T) => V): Array<V>
-declare function promiseThen<T, V>(this: Promise<T>, transformContents: (data: T) => V): Promise<V>
+declare function arrayMap   <T, U>(this: Array<T>,   transformContents: (data: T) => U): Array<U>
+declare function promiseThen<T, U>(this: Promise<T>, transformContents: (data: T) => U): Promise<U>
 ```
 
 (you may know that `.map` and `.then` have a few more features than these types suggest)
@@ -196,7 +196,7 @@ like this:
 
 ```ts
 type SomeFunctor<T> = /* your structure */
-declare function mapSomeFunctor<T, V>(structure: SomeFunctor<T>, transformContents: (data: T) => V): SomeFunctor<V>
+declare function mapSomeFunctor<T, U>(structure: SomeFunctor<T>, transformContents: (data: T) => U): SomeFunctor<U>
 ```
 
 ---
@@ -251,7 +251,7 @@ known as its _functor instance_.
 
 ```ts
 // Maybe's functor instance
-function mapMaybe<T, V>(maybe: Maybe<T>, transformContents: (data: T) => V): Maybe<V> {
+function mapMaybe<T, U>(maybe: Maybe<T>, transformContents: (data: T) => U): Maybe<U> {
   if(maybe.type === 'nothing') {
     return maybe
   } else {
@@ -343,7 +343,7 @@ const ui = friends.flatMap(({ name, favorite }) => {
 A functor is a structure for which you can implement a function like this:
 ```ts
 type SomeStructure<T> = /* your structure */
-declare function mapStructure<T, V>(structure: SomeStructure<T>, transformContents: (data: T) => V): SomeStructure<V>
+declare function mapStructure<T, U>(structure: SomeStructure<T>, transformContents: (data: T) => U): SomeStructure<U>
 ```
 
 Some functors are monads, if you can additionally implement a function like this:
@@ -432,7 +432,7 @@ These are our `map` and `join` functions:
 ```ts
 type IO<T> = () => T
 
-function mapIO<T, V>(io: IO<T>, transformContents: (data: T) => V): IO<V> {
+function mapIO<T, U>(io: IO<T>, transformContents: (data: T) => U): IO<U> {
   return () => transformContents(io())
 }
 
@@ -470,7 +470,7 @@ store.set(positionAtom, { x: 2, y: 2 })  // "x is now 2"
 
 These are our `map` and `join` functions:
 ```ts
-function mapAtom<T, V>(anAtom: Atom<T>, transformContents: (data: T) => V): Atom<V> {
+function mapAtom<T, U>(anAtom: Atom<T>, transformContents: (data: T) => U): Atom<U> {
   return atom((get) => transformContents(get(anAtom)))
 }
 
