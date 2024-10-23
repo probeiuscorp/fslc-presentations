@@ -184,8 +184,6 @@ declare function arrayMap   <T, U>(this: Array<T>,   transformContents: (data: T
 declare function promiseThen<T, U>(this: Promise<T>, transformContents: (data: T) => U): Promise<U>
 ```
 
-(you may know that `.map` and `.then` have a few more features than these types suggest)
-
 This pattern is important enough that it has a name: Array and Promise are both
 a _functor_.
 
@@ -417,12 +415,9 @@ Let's put them in monads!
 
 # I/O,  monad 1 of 2
 
-In JavaScript, we can approximate an I/O type with `() => void`. It is less
-powerful than a distinct I/O type because we can't distinguish it from pure
-functions.
+In JavaScript, we can approximate an I/O type with `() => void`.
 
-**However, it does what we need: separate pure from impure.** This
-will make our lives much easier
+**We use it to separate pure from impure.** This will make our lives much easier
 * when modularizing our code, and
 * when integrating with libraries like React.
 
