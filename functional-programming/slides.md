@@ -712,6 +712,38 @@ countHeartsInDeck :: Deck -> Int
 countHeartsInDeck = undefined
 ```
 
+---
+
+# Modeling problems
+
+A deck is just a collection of cards. We'll use lists for simplicity, but later
+we may find that using sets is more useful. For historical reasons, Haskell uses
+this inconsistent syntax for list types:
+```hs
+type Deck = [Card]
+```
+
+We know we'll need a function to count the number of hearts in a Deck. We'll
+start with an `isHeart` function and give `countHeartsInDeck` a signature.
+Counting the number of items in a list which match a condition seems like a
+common enough problem there might just be a function for it in the standard
+library. We're new to the whole Haskell thing, so we don't have the entire
+standard library memorized.
+
+So, let's check **Hoogle** to see if any functions with a signature like
+`(a -> Bool) -> [a] -> Int` exist. While we're at it, we can set our
+implementation to `undefined` so the IDE stops bothering us. This will make it
+clear to us later that we aren't done yet.
+
+```hs
+isHeart :: Card -> Bool
+isHeart (Card Hearts _) = True
+isHeart _ = False
+
+countHeartsInDeck :: Deck -> Int
+countHeartsInDeck = undefined
+```
+
 From Hoogle, it seems we're out of luck. We'll have to do it ourself.
 ```hs
 countHeartsInDeck deck = length (filter isHeart deck)
