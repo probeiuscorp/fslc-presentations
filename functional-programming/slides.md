@@ -140,13 +140,13 @@ Loading states are common enough that the library we use accepts both `UI` and `
 ```ts
 import { render } from 'my-library'
 
-const myUI = new Promise<UI>((resolve) => {
-  pendingFriend.then((friend) => {
+const myPendingUI = new Promise<UI>((resolve: ((resolveWith: UI) => void)) => {
+  pendingFriend.then((friend: string) => {
     const ui = uiFromFriend(friend)
     resolve(ui)
   })
 })
-render(myUI)
+render(myPendingUI)
 ```
 
 However, we then read up a bit on the documentation for `.then`, and learn it
@@ -154,8 +154,8 @@ actually has a return value. Capitalizing on this knowledge, we shorten our code
 dramatically:
 
 ```ts
-const myUI = pendingFriend.then(uiFromFriend)
-render(myUI)
+const myPendingUI: Promise<UI> = pendingFriend.then(uiFromFriend)
+render(myPendingUI)
 ```
 
 ## Refresher
@@ -320,7 +320,7 @@ Here we join by simply concatenating all the inner arrays.
 ## flatMap
 
 Calling `join` right after `map`'ing is so common that it is usually provided,
-no derivation necessary. Such is the case with the ES6 array:
+no derivation necessary. Such is the case with the modern array:
 * `.map` is of course our functor instance,
 * `.flat` is our join, and
 * `.flatMap` is provided to save us some key strokes.
@@ -450,7 +450,7 @@ const store = createStore()
 const positionAtom = atom({ x: 0, y: 0 })
 store.get(positionAtom)  // "{ x: 0, y: 0 }"
 
-const xPositionAtom = atom((get) => {
+const xPositionAtom = atom((get: (<T>(anAtom: Atom<T>) => T)) => {
   const position = get(positionAtom)
   return position.x
 });
