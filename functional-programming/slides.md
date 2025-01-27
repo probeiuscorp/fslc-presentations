@@ -969,11 +969,11 @@ presentation before).
 What is a monoid? The exact mathematical definition is a bit involved for us
 here, but in essence a monoid is:
 * a set _S_,
-* a binary function (•) which works on _S_, and
+* a binary function (•) which works on elements of _S_, and
 * an identity element _e_.
 
 Example monoids:
- * _S_ = non-negative numbers, (•) = addition, _e_ = 0.
+ * _S_ = non-negative numbers, (•) = addition, _e_ = 0
  * _S_ = strings, (•) = string concatenation, _e_ = empty string
 
 Here is the monoid as a typeclass in Haskell:
