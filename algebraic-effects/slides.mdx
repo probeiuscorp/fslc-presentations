@@ -158,3 +158,24 @@ For another point of reference,
 
 For those familiar with monoids,
 that rephrased type might make it clearer how monads relate to monoids.
+
+---
+
+# The `>>=` function
+
+In producing our `Promise balance` we used:
+
+> `join (fetchBalance <$> pendingBankInfo)`
+
+`join`'ing after `<$>`'ing is so common it is usually provided out of the box, such as
+
+- `>>=` in Haskell (for all monads)
+- `.flatMap` in JavaScript Arrays
+- `.and_then` in Rust's Option and Result
+
+Precisely, `>>=` has a type of:
+
+> `(a -> f b) -> f a -> f b`
+
+Which is shockingly similar to `<$>`'s own type.
+We'll look into this more as we introduce into **Applicative Functors**.
