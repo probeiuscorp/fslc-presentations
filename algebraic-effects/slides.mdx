@@ -1,0 +1,116 @@
+import { themes } from 'mdx-deck';
+const base = themes.dark;
+export const theme = {
+  ...base,
+  fonts: {
+    body: '"Crimson Text", serif',
+  },
+  googleFont: 'https://fonts.googleapis.com/css?family=Crimson+Text',
+  styles: {
+    ...base.styles,
+    root: {
+      textAlign: 'left',
+    },
+    p: {
+      marginBlockStart: 0,
+      marginBlockEnd: 0,
+    },
+    ul: {
+      marginBlockStart: 0,
+      marginBlockEnd: 0,
+    },
+    ol: {
+      marginBlockStart: 0,
+      marginBlockEnd: 0,
+    },
+    Slide: {
+      alignItems: 'flex-start',
+      paddingLeft: '2em',
+      paddingRight: '2em',
+      gap: '1em',
+    },
+    h1: {
+      '&:only-child': {
+        alignSelf: 'center',
+      },
+    },
+    img: {
+      filter: 'invert(1)',
+      transform: 'scale(0.25)',
+      height: 'unset',
+    },
+  },
+};
+
+# Algebraic Effects
+
+In this presentation we'll be looking into modeling effects in pure functional programming.
+
+Here's the outline:
+
+1. What exactly is meant by _effects_?
+2. The well-known: a glance of Functors, Applicative Functors and Monads
+3. How are _algebraic effects_ different, and where/how can they improve our code?
+
+## Source
+
+The source of this presentation is on GitHub, at https://github.com/probeiuscorp/fslc-presentations.
+
+---
+
+# Part 1: What are _effects_?
+
+---
+
+# Consuming under constraints
+
+But sometimes when we're working with the real world, our values aren't quite as pretty:
+
+- The value may not exist (Maybe/Option)
+- The value may not exist yet (Promise)
+- The value may not exist, but if it doesn't we're given a why (Either/Result)
+- There may be multiple values (List)
+- The value may vary over time (Behavior/Signal)
+- The value is produced outside our code / total control (IO)
+
+In _some_ (gross) languages we're left totally on our own:
+* We check for null every time we have to use it, and
+* we set i=0 and i++ while i < length whenever we have to walk along the list
+
+We shouldn't have to tell the computer how to traverse a list.
+How do we simplify our code?
+
+---
+
+# In depth: Promises
+
+Well-known approaches to this problem are the **Functor**, **Applicative Functor** and **Monad**.
+We'll focus on Promises as they're rather pleasant to diagram.
+
+For some groundwork, here is a function:
+![](function.svg)
+
+As we're in the perspective of pure (functional) programming,
+a function merely takes information and gives back information.
+
+And here is a Promise:
+<img src="promise.svg" />
+
+A Promise represents a value which does not exist yet.
+
+---
+
+# Functors
+
+The simplest operation is to more or less forward the effects.
+Maybe we're just not at the right layer to properly handle them.
+
+Structures which permit this kind of operation are known as _Functors_.
+Promises are Functors.
+
+The fundamental operation is map, or `<$>`, which involves three values:
+* `f a`, values of type `a` constrained by the Functor `f`
+* `(a -> b)`, a function to take the input `a`s to output `b`s
+* The output, `f b`: values of type `b` constrained by the same Functor `f`
+
+![](promise-functor.svg)

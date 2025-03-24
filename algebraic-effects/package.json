@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "mdx-deck": "^4.1.1"
+  },
+  "scripts": {
+    "start": "mdx-deck slides.mdx",
+    "source-map": "^0.8.0-beta.0"
+  },
+  "resolutions": {
+    "source-map": "^0.8.0-beta.0"
+  }
+}
