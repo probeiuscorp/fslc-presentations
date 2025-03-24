@@ -32,6 +32,8 @@ export default {
     },
     Slide: {
       alignItems: 'flex-start',
+      justifyContent: 'flex-start',
+      paddingTop: '1em',
       paddingLeft: '2em',
       paddingRight: '2em',
       gap: '1em',
@@ -45,6 +47,7 @@ export default {
       },
       '&:only-child': {
         alignSelf: 'center',
+        margin: 'auto 0',
         fontSize: '2em',
       },
     },
