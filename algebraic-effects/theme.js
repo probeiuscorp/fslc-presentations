@@ -12,18 +12,6 @@ export default {
     root: {
       textAlign: 'left',
     },
-    p: {
-      marginBlockStart: 0,
-      marginBlockEnd: 0,
-    },
-    ul: {
-      marginBlockStart: 0,
-      marginBlockEnd: 0,
-    },
-    ol: {
-      marginBlockStart: 0,
-      marginBlockEnd: 0,
-    },
     a: {
       color: '#9d7ff5'
     },
