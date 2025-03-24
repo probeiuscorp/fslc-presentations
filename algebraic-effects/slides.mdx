@@ -1,5 +1,7 @@
 import './styles.css';
+import { useSteps } from 'mdx-deck';
 import { Highlight } from './Highlight.jsx';
+import { anon } from './anonymous.jsx';
 import slidesTheme from './theme';
 export const theme = slidesTheme;
 
@@ -80,10 +82,19 @@ Maybe we're just not at the right layer to properly handle them.
 Structures which permit this kind of operation are known as _Functors_.
 Promises are Functors.
 
-The fundamental operation is map, or `<$>`, which involves three values:
-* `f a`, values of type `a` constrained by the Functor `f`
-* `(a -> b)`, a function to take the input `a`s to output `b`s
-* The output, `f b`: values of type `b` constrained by the same Functor `f`
+<p>
+  The fundamental operation is map, or <code>{'<$>'}</code>, which involves three values:
+  {anon(function FunctorsStep() {
+    const showCppStyle = !useSteps(1);
+    return (
+      <ul>
+        <li><code>{showCppStyle ? 'f<a>' : 'f a'}</code>, values of type <code>a</code> constrained by the Functor <code>f</code></li>
+        <li><code>(a -> b)</code>, a function to take the input <code>a</code>s to the output <code>b</code>s</li>
+        <li>The output, <code>{showCppStyle ? 'f<b>' : 'f b'}</code>: values of type <code>b</code> constrained by the same Functor <code>f</code></li>
+      </ul>
+    );
+  })}
+</p>
 
 ![](promise-functor.svg)
 
@@ -94,3 +105,33 @@ The fundamental operation is map, or `<$>`, which involves three values:
 ![](promise-functor-example.svg)
 
 ![](list-functor-example.svg)
+
+---
+
+# From Functors to Monads
+
+Suppose we can take our `bank_info` and make an HTTP request to the bank's API for the user's `balance`.
+Again, we can simply use the Functor map.
+
+![](map-to-promise-of-promise.svg)
+
+<p>
+  {anon(function FunctorsToMonadStep() {
+    const showCppStyle = !useSteps(1);
+    return (
+      <>
+        However, what we get back is not a <code>
+          {showCppStyle ? 'Promise<bank_info>' : 'Promise bank_info'}
+        </code> but rather a <code>
+          {showCppStyle ? 'Promise<Promise<bank_info>>' : 'Promise (Promise bank_info) '}
+        </code>.
+        We have the information we want.
+        There's just more detail than we care for.
+      </>
+    );
+  })}
+</p>
+
+---
+
+# Monads
