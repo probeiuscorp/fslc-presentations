@@ -135,3 +135,26 @@ Again, we can simply use the Functor map.
 ---
 
 # Monads
+
+<p>
+  We don't want a Promise to a Promise to a <code>balance</code>.
+  We simply want a Promise to a <code>balance</code>.
+  Fortunately for Promises, this operation is pretty simple:
+  just <Highlight>wait for first, then wait for the second.</Highlight>
+</p>
+
+![](join-promise.svg)
+
+`join` is a function which does just that.
+However, it isn't just for Promises.
+It is defined for all **Monads**.
+You may be surprised by how many Functors are also Monads.
+This is `join`'s type:
+
+> `f (f a) -> f a`, or rephrased, `(f . f) a -> f a`
+
+For another point of reference,
+`join`'ing a list is simply concatenating all inner lists: `join [[], [3], [], [9]] = [3, 9]`
+
+For those familiar with monoids,
+that rephrased type might make it clearer how monads relate to monoids.
