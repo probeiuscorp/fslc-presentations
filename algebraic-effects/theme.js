@@ -23,6 +23,9 @@ export default {
       marginBlockStart: 0,
       marginBlockEnd: 0,
     },
+    a: {
+      color: '#9d7ff5'
+    },
     Slide: {
       alignItems: 'flex-start',
       paddingLeft: '2em',
@@ -48,8 +51,9 @@ export default {
     },
     img: {
       filter: 'invert(1)',
-      transform: 'scale(0.25)',
+      width: 'unset',
       height: 'unset',
+      alignSelf: 'center',
     },
   },
 };
