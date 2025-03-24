@@ -30,8 +30,20 @@ export const theme = {
       gap: '1em',
     },
     h1: {
+      color: '#99ffcc',
+      fontSize: '1.5em',
+      '::before': {
+        content: '"\u2589 "',
+      },
       '&:only-child': {
         alignSelf: 'center',
+        fontSize: '2em',
+      },
+    },
+    h2: {
+      color: '#2b97d9',
+      '::before': {
+        content: '"\u258A "',
       },
     },
     img: {
