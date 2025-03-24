@@ -1,3 +1,5 @@
+import './styles.css';
+import { Highlight } from './Highlight.jsx';
 import slidesTheme from './theme';
 export const theme = slidesTheme;
 
@@ -44,18 +46,24 @@ How do we simplify our code?
 # In depth: Promises
 
 Well-known approaches to this problem are the **Functor**, **Applicative Functor** and **Monad**.
-We'll focus on Promises as they're rather pleasant to diagram.
+We'll focus on Promises because they're rather pleasant to diagram.
 
-For some groundwork, here is a function:
+<p>
+  <Highlight>Here is a function.</Highlight>{' '}
+  As we're coming from a functional perspective,
+  let's do some groundwork and be exact with how we are defining functions.
+  Functions receive some information and give us back new information.
+  Everything is <strong>immutable</strong> and <strong>referentially transparent</strong>.
+</p>
+
 ![](function.svg)
 
-As we're in the perspective of pure (functional) programming,
-a function merely takes information and gives back information.
+<p>
+  <Highlight>And here is a Promise.</Highlight>{' '}
+  Promises represent values which are pending (do not exist yet).
+</p>
 
-And here is a Promise:
-<img src="promise.svg" />
-
-A Promise represents a value which does not exist yet.
+![](promise.svg)
 
 ---
 

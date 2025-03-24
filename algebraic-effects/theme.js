@@ -26,11 +26,15 @@ export default {
     a: {
       color: '#9d7ff5'
     },
+    strong: {
+      color: 'white',
+    },
     Slide: {
       alignItems: 'flex-start',
       paddingLeft: '2em',
       paddingRight: '2em',
       gap: '1em',
+      color: '#d8d8d8',
     },
     h1: {
       color: '#99ffcc',

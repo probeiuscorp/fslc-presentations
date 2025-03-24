@@ -1,0 +1,9 @@
+@keyframes highlight-color-shift {
+  from {
+    background-color: #ffea0030;
+  }
+
+  to {
+    background-color: #ffea0010;
+  }
+}
