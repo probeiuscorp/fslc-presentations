@@ -7,3 +7,10 @@
     background-color: #ffea0010;
   }
 }
+
+code {
+  font-family: 'Ubuntu Mono', monospace;
+  color: #ff5f5f;
+  background-color: #303030;
+  padding: 0 6px;
+}

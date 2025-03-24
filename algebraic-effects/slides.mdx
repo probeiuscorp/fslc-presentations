@@ -3,6 +3,11 @@ import { Highlight } from './Highlight.jsx';
 import slidesTheme from './theme';
 export const theme = slidesTheme;
 
+<Head>
+  <title>Algebraic Effects</title>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+</Head>
+
 # Algebraic Effects
 
 In this presentation we'll be looking into modeling effects in pure functional programming.
@@ -69,7 +74,7 @@ We'll focus on Promises because they're rather pleasant to diagram.
 
 # Functors
 
-The simplest operation is to more or less forward the effects.
+The simplest operation is to forward (preserve) the effects.
 Maybe we're just not at the right layer to properly handle them.
 
 Structures which permit this kind of operation are known as _Functors_.
