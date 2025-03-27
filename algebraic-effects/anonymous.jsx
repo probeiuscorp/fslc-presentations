@@ -16,6 +16,10 @@ export function anon(fn) {
   return <Component />;
 }
 
+export function Pass({ children }) {
+  return children;
+}
+
 if(module.hot) {
   module.hot.dispose(() => {
     components.clear();

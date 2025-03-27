@@ -1,7 +1,7 @@
 import './styles.css';
 import { useSteps } from 'mdx-deck';
 import { Highlight } from './Highlight.jsx';
-import { anon } from './anonymous.jsx';
+import { anon, Pass } from './anonymous.jsx';
 import slidesTheme from './theme';
 export const theme = slidesTheme;
 
@@ -179,3 +179,48 @@ Precisely, `>>=` has a type of:
 
 Which is shockingly similar to `<$>`'s own type.
 We'll look into this more as we introduce into **Applicative Functors**.
+
+---
+
+# Applicative Functors
+
+Applicative functors are the step between functors and monads.
+Some functors can't be monads, but can be applicative functors.
+
+<Pass>
+  {anon(function ApplicativeFunctorsIntroSteps() {
+    const step = useSteps(1) + 1;
+    return <img src={`promise-intro-applicative-${step}.svg`} />;
+  })}
+</Pass>
+
+---
+
+# Applicative Functors
+
+<ul>
+  {anon(function ApplicativeFunctorsStep() {
+    const showApplicativeFunctor = useSteps(1);
+    return (
+      <>
+        <li><pre><code>
+          {'(<$>) :: (a -> b) ->   f a -> f b'}
+        </code></pre></li>
+        <li>
+          {showApplicativeFunctor ? (
+              <code>
+                {'(<*>) :: f (a -> b) -> f a -> f b'}
+              </code>
+            ) : (
+              <span style={{ fontFamily: 'Ubuntu Mono' }}>
+                ???
+              </span>
+            )}
+        </li>
+        <li><code>
+          {'(>>=) :: (a -> f b) -> f a -> f b'}
+        </code></li>
+      </>
+    );
+  })}
+</ul>
