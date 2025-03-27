@@ -8,7 +8,7 @@ export default {
   googleFont: 'https://fonts.googleapis.com/css?family=Crimson+Text',
   styles: {
     ...base.styles,
-    code: undefined,
+    pre: undefined,
     root: {
       textAlign: 'left',
     },

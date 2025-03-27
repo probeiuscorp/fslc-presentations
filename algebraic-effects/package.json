@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "mdx-deck": "^4.1.1"
+    "mdx-deck": "^4.1.1",
+    "react-syntax-highlighter": "^15.6.1"
   },
   "scripts": {
     "start": "NODE_OPTIONS=--no-experimental-fetch mdx-deck slides.mdx",

@@ -1,9 +1,19 @@
 import './styles.css';
 import { useSteps } from 'mdx-deck';
+import { Prism as SyntaxHighlight } from 'react-syntax-highlighter';
+import { materialDark as basePrismTheme } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Highlight } from './Highlight.jsx';
 import { anon, Pass } from './anonymous.jsx';
 import slidesTheme from './theme';
 export const theme = slidesTheme;
+const prismTheme = {
+  ...basePrismTheme,
+  ["pre[class*=\"language-\"]"]: {
+    ...basePrismTheme["pre[class*=\"language-\"]"],
+    width:'100%',
+    fontSize: '0.75em',
+  },
+};
 
 <Head>
   <title>Algebraic Effects</title>
@@ -187,6 +197,10 @@ We'll look into this more as we introduce into **Applicative Functors**.
 Applicative functors are the step between functors and monads.
 Some functors can't be monads, but can be applicative functors.
 
+Suppose you wanted to combine multiple small values into one.
+Monads are overkill!
+Some structures which <Highlight>aren't monads</Highlight> _are_ capable of this kind of combining.
+
 <Pass>
   {anon(function ApplicativeFunctorsIntroSteps() {
     const step = useSteps(1) + 1;
@@ -198,29 +212,57 @@ Some functors can't be monads, but can be applicative functors.
 
 # Applicative Functors
 
-<ul>
+Looking at the types,
+there is something between the two.
+Something which allows a context on the function,
+but which doesn't allow the context to depend on `a`.
+
+<Pass>
   {anon(function ApplicativeFunctorsStep() {
-    const showApplicativeFunctor = useSteps(1);
+    const step = useSteps(2);
     return (
       <>
-        <li><pre><code>
-          {'(<$>) :: (a -> b) ->   f a -> f b'}
-        </code></pre></li>
-        <li>
-          {showApplicativeFunctor ? (
-              <code>
-                {'(<*>) :: f (a -> b) -> f a -> f b'}
-              </code>
-            ) : (
+        <ul>
+          <li><pre><code>
+            {'(<$>) :: (a -> b) ->   f a -> f b'}
+          </code></pre></li>
+          <li><pre>
+            {step === 0 ? (
               <span style={{ fontFamily: 'Ubuntu Mono' }}>
                 ???
               </span>
+            ) : (
+              <code>
+                {'(<*>) :: f (a -> b) -> f a -> f b'}
+              </code>
             )}
-        </li>
-        <li><code>
-          {'(>>=) :: (a -> f b) -> f a -> f b'}
-        </code></li>
+          </pre></li>
+          <li><code>
+            {'(=<<) :: (a -> f b) -> f a -> f b'}
+          </code></li>
+        </ul>
+        <p>
+          Command line argument parsers are an example of applicative functors
+          {' '}which <Highlight>aren't monads</Highlight>{step === 2 ? ':' : '.'}
+        </p>
+        {step === 2 && (
+          <>
+          <SyntaxHighlight language="haskell" style={prismTheme}>
+            {[
+            `makeOptions :: String -> String -> Bool -> Options`,
+            `parseOptions :: ArgParse Options`,
+            `parseOptions = makeOptions`,
+            `  <$> argument acceptString  -- input file`,
+            `  <*> strOption 'o'  -- output file`,
+            `  <*> switch 'q' False  -- quiet mode`,
+            ].join('\n')}
+          </SyntaxHighlight>
+          <p>
+            An interesting observation is that <code>{'<*>'}</code> is simply a distributive property over functions.
+          </p>
+          </>
+        )}
       </>
     );
   })}
-</ul>
+</Pass>
