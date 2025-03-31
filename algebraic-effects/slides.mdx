@@ -266,3 +266,17 @@ but which doesn't allow the context to depend on `a`.
     );
   })}
 </Pass>
+
+---
+
+# Sequencing
+
+Sequencing is one of the most powerful and most awesomest formalizations
+which result from the applicative functor.
+
+Consider you have a list of Promises.
+How do you use this?
+Usually, you'll just wait for them all to come back first.
+In JavaScript, there's a handy function which does just that, <Highlight>Promise.all</Highlight>:
+
+![](sequence-promise-list.svg)
