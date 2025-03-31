@@ -21,7 +21,7 @@ export default {
     Slide: {
       alignItems: 'flex-start',
       justifyContent: 'flex-start',
-      paddingTop: '1em',
+      paddingTop: '1.5em',
       paddingLeft: '2em',
       paddingRight: '2em',
       gap: '1em',
