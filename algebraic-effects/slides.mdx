@@ -289,7 +289,33 @@ We turn <Highlight>a list of promises</Highlight> into a <Highlight>promise of a
 
 # Sequencing
 
-Sequencing is about changing the order of effects.
+Sequencing is a fantastic example of **unopinionated code**.
+Given two effects, such as multiplicity and asynchronicity,
+unopinionated code can't destroy either effect.
+That would be opinionated!
+Yet we can still do something useful — by changing the order.
+
+Consider an `if` statement which checks a bunch of nullable values.
+This is a sequencing!
+
+> What we're really doing is turning a <Highlight>list of maybes</Highlight> into a <Highlight>maybe of a list</Highlight>.
+
+Consider pulling the most recent value of time-varying, asynchronous action.
+This is a sequencing!
+
+> What we're really doing is turning a <Highlight>signal of a promise</Highlight> into a <Highlight>promise of a signal</Highlight>.
+
+And these functions aren't type busy-work.
+They do very material things.
+
+## Note
+
+However, note that applicative functors don't sequence (in general) with other applicative functors.
+They are guaranteed to sequence with any _Traversable_.
+Traversables are more powerful _Foldables_ (which fulfill the same role as iterators).
+Lists are an example of a Traversable.
+
+So, there is no function to sequence a promise of a maybe into a maybe of a promise.
 
 ---
 
@@ -300,12 +326,14 @@ Let's keep track of the current contents of a file.
 <SyntaxHighlight language="haskell" style={prismTheme}>
   {[
     `-- Given these functions...`,
-    `readFile   :: FilePath -> (Promise $ String)`,
-    `notifyFile :: FilePath -> (Promise $ Signal $ ())`,
+    `readFile   :: FilePath -> Promise String`,
+    `notifyFile :: FilePath -> Promise (Signal ())`,
     `-- we want to define watchFile:`,
-    `watchFile  :: FilePath -> (Promise $ Signal $ String)`,
+    `watchFile  :: FilePath -> Promise (Signal String))`,
   ].join('\n')}
 </SyntaxHighlight>
+
+Let's see our three tools (functor mapping, sequencing, and monad joining) in action!
 
 <Pass>
   {anon(function SequencingExample() {
