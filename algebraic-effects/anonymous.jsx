@@ -4,15 +4,18 @@ import './slides.mdx';
 
 const components = new Map();
 // Preserve identity of anonymous function components
-export function anon(fn) {
+export function mkAnon(fn) {
   const key = fn.name;
   if(!key) {
     throw new Error('Function must have name');
   }
 
-  const Component = components.has(key)
+  return components.has(key)
     ? components.get(key)
     : (components.set(key, fn), fn);
+}
+export function anon(f) {
+  const Component = mkAnon(f);
   return <Component />;
 }
 

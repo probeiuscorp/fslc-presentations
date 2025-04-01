@@ -1,9 +1,10 @@
 import './styles.css';
+import { useRef, useState, useEffect } from 'react';
 import { useSteps } from 'mdx-deck';
 import { Prism as SyntaxHighlight } from 'react-syntax-highlighter';
 import { materialDark as basePrismTheme } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Highlight } from './Highlight.jsx';
-import { anon, Pass } from './anonymous.jsx';
+import { anon, mkAnon, Pass } from './anonymous.jsx';
 import slidesTheme from './theme';
 export const theme = slidesTheme;
 const prismTheme = {
@@ -36,7 +37,7 @@ The source of this presentation is on GitHub, at https://github.com/probeiuscorp
 
 ---
 
-# Part 1: What are _effects_?
+# What are _effects_?
 
 ---
 
@@ -280,3 +281,135 @@ Usually, you'll just wait for them all to come back first.
 In JavaScript, there's a handy function which does just that, <Highlight>Promise.all</Highlight>:
 
 ![](sequence-promise-list.svg)
+
+Viewed from the types, this is very interesting.
+We turn <Highlight>a list of promises</Highlight> into a <Highlight>promise of a list</Highlight>.
+
+---
+
+# Sequencing
+
+Sequencing is about changing the order of effects.
+
+---
+
+# Sequencing example
+
+Let's keep track of the current contents of a file.
+
+<SyntaxHighlight language="haskell" style={prismTheme}>
+  {[
+    `-- Given these functions...`,
+    `readFile   :: FilePath -> (Promise $ String)`,
+    `notifyFile :: FilePath -> (Promise $ Signal $ ())`,
+    `-- we want to define watchFile:`,
+    `watchFile  :: FilePath -> (Promise $ Signal $ String)`,
+  ].join('\n')}
+</SyntaxHighlight>
+
+<Pass>
+  {anon(function SequencingExample() {
+    const step = useSteps(3);
+    const Trans = mkAnon(function SequencingExample_Trans({ children, width, style }) {
+      return (
+        <div style={{
+          display: 'inline flex',
+          transition: 'width 400ms ease-in-out',
+          width: (width ?? children.length) * 16,
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+          ...style,
+        }}>
+          {children}
+        </div>
+      );
+    });
+    const Switcher = mkAnon(function SequencingExample_Switch({ children, me: meRef, switchWith, style }) {
+      const [transform, setTransform] = useState({});
+      useEffect(() => {
+        if(switchWith) {
+          if(transform.x) return;
+          const me = meRef.current;
+          const you = switchWith.current;
+          const mine = me.getBoundingClientRect();
+          const yours = you.getBoundingClientRect();
+          setTransform({
+            x: `translateX(${yours.x - mine.x - (mine.width - yours.width)}px)`,
+            up: mine.width > yours.width,
+            style: {
+              width: yours.width,
+            },
+          });
+        } else {
+          if(transform.x) {
+            setTransform({
+              up: !transform.up,
+            });
+          }
+        }
+      }, [switchWith]);
+      return (
+        <div ref={meRef} style={{ ...style, ...transform.style, transform: transform.x, transition: 'width 400ms ease-in-out, transform 400ms ease-in-out' }}>
+          <div className={transform.up === true ? 'up-and-over' : transform.up === false ? 'under-and-over' : ''}>
+            {children}
+          </div>
+        </div>
+      );
+    });
+    const div1 = useRef();
+    const div2 = useRef();
+    const isTrans = step >= 2;
+    const isJoin = step === 3;
+    return (
+      <pre className="mono" style={{
+        backgroundColor: '#ffffff40',
+        display: 'flex',
+        padding: '2px 0.25em',
+      }}>
+        <Trans>{isJoin ? '' : 'Promise ('}</Trans>
+        <Switcher me={div1} switchWith={isTrans && div2}>
+          Signal
+        </Switcher>
+        <div> (</div>
+        <Trans
+          width={[0, 'Promise String'.length, 'Signal String'.length][step]}
+          style={isTrans ? { overflow: 'visible' } : undefined}
+        >
+          {step ? (
+            <>
+              <Switcher me={div2} switchWith={isTrans && div1}>Promise</Switcher>
+              <div> String</div>
+            </>
+          ) : ''}
+        </Trans>
+        <div>
+          )
+        </div>
+        <Trans>
+          {isJoin ? '' : ')'}
+        </Trans>
+      </pre>
+    );
+  })}
+</Pass>
+
+---
+
+# Sequencing example
+
+Let's step it up a bit.
+Now we want to track the current contents of a directory.
+We have a bonus function:
+
+<SyntaxHighlight language="haskell" style={prismTheme}>
+  {'watchDir :: FilePath -> (Promise $ Signal $ List $ FilePath)'}
+</SyntaxHighlight>
+
+- Goal: `Promise $ Signal $ List $ (FilePath, String)`
+- `Promise $ Signal $ List $ FilePath`
+- `Promise $ Signal $ List $ Promise $ Signal $ String`
+- `Promise $ Signal $ Promise $ List $ String`
+
+---
+
+# Effects but Algebraic

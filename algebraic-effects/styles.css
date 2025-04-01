@@ -8,8 +8,10 @@
   }
 }
 
-code:not([class*="language-"]) {
+.mono, code:not([class*="language-"]) {
   font-family: 'Ubuntu Mono', monospace;
+}
+code:not([class*="language-"]) {
   color: #ff5f5f;
   background-color: #303030;
   padding: 0 6px;
@@ -18,6 +20,27 @@ code:not([class*="language-"]) {
 * {
   margin-block-start: 0;
   margin-block-end: 0;
+}
+
+@keyframes up-and-over-anim {
+  from { transform: translateY(0); }
+  50% { transform: translateY(20px); }
+  to { transform: translateY(0); }
+}
+.up-and-over {
+  animation: up-and-over-anim 400ms ease-in-out;
+}
+@keyframes under-and-over-anim {
+  from { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  to { transform: translateY(0); }
+}
+.under-and-over {
+  animation: under-and-over-anim 400ms ease-in-out;
+}
+
+pre div {
+  white-space: pre;
 }
 
 h1, h2 {
