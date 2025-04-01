@@ -338,6 +338,9 @@ Let's see our three tools (functor mapping, sequencing, and monad joining) in ac
 <Pass>
   {anon(function SequencingExample() {
     const step = useSteps(3);
+    const lastStepRef = useRef(step);
+    const lastStep = lastStepRef.current;
+    useEffect(() => { lastStepRef.current = step });
     const Trans = mkAnon(function SequencingExample_Trans({ children, width, style }) {
       return (
         <div style={{
@@ -401,7 +404,7 @@ Let's see our three tools (functor mapping, sequencing, and monad joining) in ac
         <div> (</div>
         <Trans
           width={[0, 'Promise String'.length, 'Signal String'.length][step]}
-          style={isTrans ? { overflow: 'visible' } : undefined}
+          style={(isTrans || (step === 1 && lastStep === 2)) ? { overflow: 'visible' } : undefined}
         >
           {step ? (
             <>
