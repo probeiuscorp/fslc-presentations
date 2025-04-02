@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from 'react';
 import { useSteps } from 'mdx-deck';
 import { Prism as SyntaxHighlight } from 'react-syntax-highlighter';
 import { materialDark as basePrismTheme } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { Highlight } from './Highlight.jsx';
+import { Highlight, Badge } from './Highlight.jsx';
 import { anon, mkAnon, Pass } from './anonymous.jsx';
 import slidesTheme from './theme';
 export const theme = slidesTheme;
@@ -43,14 +43,14 @@ The source of this presentation is on GitHub, at https://github.com/probeiuscorp
 
 # Consuming under constraints
 
-But sometimes when we're working with the real world, our values aren't quite as pretty:
+Often when we're working with the real world, our values aren't quite as pretty:
 
-- The value may not exist (Maybe/Option)
-- The value may not exist yet (Promise)
-- The value may not exist, but if it doesn't we're given a why (Either/Result)
-- There may be multiple values (List)
-- The value may vary over time (Behavior/Signal)
-- The value is produced outside our code / total control (IO)
+- The value may not exist <Badge>Maybe</Badge> <Badge>Option</Badge>
+- The value may not exist yet <Badge>Promise</Badge>
+- The value may not exist, but if it doesn't we're given a why <Badge>Either</Badge> <Badge>Result</Badge>
+- There may be multiple values <Badge>List</Badge>
+- The value may vary over time <Badge>Behavior</Badge> <Badge>Signal</Badge>
+- The value is produced outside our code / total control <Badge>IO</Badge>
 
 In _some_ (gross) languages we're left totally on our own:
 * We check for null every time we have to use it, and

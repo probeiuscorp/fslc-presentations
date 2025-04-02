@@ -8,3 +8,14 @@ export const Highlight = ({ children }) => (
     {children}
   </span>
 );
+
+export const Badge = ({ children }) => (
+  <span className="mono" style={{
+    backgroundColor: '#ffffff40',
+    fontSize: 24,
+    padding: '2px 8px',
+    borderRadius: 6,
+  }}>
+    {children}
+  </span>
+);
