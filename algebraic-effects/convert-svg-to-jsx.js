@@ -8,7 +8,7 @@ async function translateFileSVGtoJSX(basename) {
   const str = match[0].slice(0, -8);
   const iStart = match.index;
   const iEnd = iStart + str.length;
-  const jsx = scuffedJSX.slice(0, iStart) + '{"' + str + '"}' + scuffedJSX.slice(iEnd);
+  const jsx = scuffedJSX.slice(0, iStart) + '' + scuffedJSX.slice(iEnd);
   await fs.writeFile(`static/${basename}.jsx`, `import React from 'react';\nexport default ${jsx}`);
 }
 
