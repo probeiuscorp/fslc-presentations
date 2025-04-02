@@ -45,11 +45,5 @@ export default {
         content: '"\u258A "',
       },
     },
-    img: {
-      filter: 'invert(1)',
-      width: 'unset',
-      height: 'unset',
-      alignSelf: 'center',
-    },
   },
 };

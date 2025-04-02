@@ -5,6 +5,7 @@ import { Prism as SyntaxHighlight } from 'react-syntax-highlighter';
 import { materialDark as basePrismTheme } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Highlight, Badge } from './Highlight.jsx';
 import { anon, mkAnon, Pass } from './anonymous.jsx';
+import * as svgs from './svgs.js';
 import slidesTheme from './theme';
 export const theme = slidesTheme;
 const prismTheme = {
@@ -74,14 +75,14 @@ We'll focus on Promises because they're rather pleasant to diagram.
   ideally <strong>immutably</strong> and with <strong>referentially transparency</strong>.
 </p>
 
-![](function.svg)
+<Pass>{svgs.function}</Pass>
 
 <p>
   <Highlight>And here is a Promise.</Highlight>{' '}
   Promises represent values which are pending (do not exist yet).
 </p>
 
-![](promise.svg)
+<Pass>{svgs.promise}</Pass>
 
 ---
 
@@ -107,15 +108,15 @@ Promises are Functors.
   })}
 </p>
 
-![](promise-functor.svg)
+<Pass>{svgs.promiseFunctor}</Pass>
 
 ---
 
 # Functor Examples
 
-![](promise-functor-example.svg)
+<Pass>{svgs.promiseFunctorExample}</Pass>
 
-![](list-functor-example.svg)
+<Pass>{svgs.listFunctorExample}</Pass>
 
 ---
 
@@ -124,7 +125,7 @@ Promises are Functors.
 Suppose we can take our `bank_info` and make an HTTP request to the bank's API for the user's `balance`.
 Again, we can simply use the Functor map.
 
-![](map-to-promise-of-promise.svg)
+<Pass>{svgs.mapToPromiseOfPromise}</Pass>
 
 <p>
   {anon(function FunctorsToMonadStep() {
@@ -154,7 +155,7 @@ Again, we can simply use the Functor map.
   just <Highlight>wait for the first, then wait for the second.</Highlight>
 </p>
 
-![](join-promise.svg)
+<Pass>{svgs.joinPromise}</Pass>
 
 `join` is a function which does just that.
 However, it isn't just for Promises.
@@ -214,8 +215,8 @@ Some structures which <Highlight>aren't monads</Highlight> _are_ capable of this
 
 <Pass>
   {anon(function ApplicativeFunctorsIntroSteps() {
-    const step = useSteps(1) + 1;
-    return <img src={`promise-intro-applicative-${step}.svg`} />;
+    const step = useSteps(1);
+    return [svgs.promiseIntroApplicative1, svgs.promiseIntroApplicative2][step];
   })}
 </Pass>
 
@@ -290,7 +291,7 @@ How do you use this?
 Usually, you'll just wait for them all to come back first.
 In JavaScript, there's a handy function which does just that, <Highlight>Promise.all</Highlight>:
 
-![](sequence-promise-list.svg)
+<Pass>{svgs.sequencePromiseList}</Pass>
 
 Viewed from the types, this is very interesting.
 We turn <Highlight>a list of promises</Highlight> into a <Highlight>promise of a list</Highlight>.
