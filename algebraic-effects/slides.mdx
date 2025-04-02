@@ -403,13 +403,78 @@ Now we want to track the current contents of a directory.
 We have a bonus function:
 
 <SyntaxHighlight language="haskell" style={prismTheme}>
-  {'watchDir :: FilePath -> (Promise $ Signal $ List $ FilePath)'}
+  {[
+    `-- Given these functions...`,
+    `readFile   :: FilePath -> Promise String`,
+    `notifyFile :: FilePath -> Promise (Signal ())`,
+    `scanDir    :: FilePath -> Promise (Signal (List FilePath))`,
+    `-- we want to define watchDir:`,
+    `watchDir   :: FilePath -> Promise (Signal (List (String, FilePath)))`,
+  ].join('\n')}
 </SyntaxHighlight>
 
-- Goal: `Promise $ Signal $ List $ (FilePath, String)`
-- `Promise $ Signal $ List $ FilePath`
-- `Promise $ Signal $ List $ Promise $ Signal $ String`
-- `Promise $ Signal $ Promise $ List $ String`
+<Pass>
+  {anon(function SequencingExampleDirectory() {
+    const div1 = useRef();
+    const div2 = useRef();
+    const tokensRef = useRef([
+      'Promise', ' (', 'Signal', ' (', 'List', ' (', 'Promise', ' (', 'Signal', ' (FilePath, String)))', ')', ')'
+    ]);
+    const tokens = tokensRef.current;
+    const instructions = mkAnon(Object.assign([
+      { type: 'swap', a: 4, b: 6 },
+      { type: 'swap', a: 2, b: 4 },
+      { type: 'drop', is: new Set([0, 1, 11]) },
+      { type: 'swap', a: 4, b: 6 },
+      { type: 'drop', is: new Set([2, 3, 8]) },
+    ], { name: 'instructionsArray' }));
+    const step = useSteps(instructions.length);
+    const [{ savedInstruction = {}, savedStep }, setInstruction] = useState({});
+    const instruction = (savedStep !== step || savedStep === undefined) ? {} : savedInstruction;
+    const spec = instructions[step - 1] ?? mkAnon({ name: 'instructionsArrayNoInstruction' });
+    useEffect(() => {
+      const instruction = spec;
+      let ret;
+      if(instruction.type === 'swap') {
+        ret = (tokens) => {
+          const v = tokens[instruction.a];
+          tokens[instruction.a] = tokens[instruction.b];
+          tokens[instruction.b] = v;
+        };
+      } else if(instruction.type === 'drop') {
+        ret = (tokens) => {
+          let d = 0;
+          instruction.is.forEach((i) => tokens.splice(i - d++, 1));
+        };
+      }
+      setInstruction({ savedStep: step, savedInstruction: instruction });
+      return ret ? () => {
+        const copy = [...tokensRef.current];
+        ret(copy);
+        tokensRef.current = copy;
+      } : undefined;
+    }, [spec]);
+    return (
+      <pre style={{
+        backgroundColor: '#ffffff40',
+        display: 'flex',
+        padding: '2px 0.25em',
+      }}>
+        {tokens.map((token, i) => {
+          if(instruction.type === 'swap') {
+            if(i === instruction.a) return <Switcher me={div1} switchWith={div2} key={`${step}:${i}`}>{token}</Switcher>;
+            if(i === instruction.b) return <Switcher me={div2} switchWith={div1} key={`${step}:${i}`}>{token}</Switcher>;
+          } else if(instruction.type === 'drop' || spec.type === 'drop') {
+            const preparing = spec.is.has(i);
+            const unrevealing = instruction.is?.has(i) ?? false;
+            if(preparing || unrevealing) return <Trans>{unrevealing ? '' : token}</Trans>;
+          }
+          return token;
+        })}
+      </pre>
+    );
+  })}
+</Pass>
 
 ---
 
