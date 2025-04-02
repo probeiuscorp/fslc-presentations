@@ -8,6 +8,10 @@
   }
 }
 
+sm {
+  color: #888;
+}
+
 .mono, code:not([class*="language-"]) {
   font-family: 'Ubuntu Mono', monospace;
 }

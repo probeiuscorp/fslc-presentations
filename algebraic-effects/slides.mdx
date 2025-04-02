@@ -172,7 +172,7 @@ that rephrased type might make it clearer how monads relate to monoids.
 
 ---
 
-# The `>>=` function
+# The `=<<` function
 
 In producing our `Promise balance` we used:
 
@@ -180,16 +180,16 @@ In producing our `Promise balance` we used:
 
 `join`'ing after `<$>`'ing is so common it is usually provided out of the box, such as
 
-- `>>=` in Haskell (for all monads)
-- `.flatMap` in JavaScript Arrays
-- `.and_then` in Rust's Option and Result
+- `=<<` in Haskell (for all monads)
+- `.flatMap` in JavaScript Arrays <sm>_(argument order flipped)_</sm>
+- `.and_then` in Rust's Option and Result <sm>_(argument order flipped)_</sm>
 
-Precisely, `>>=` has a type of:
+Precisely, `=<<` has a type of:
 
 > `(a -> f b) -> f a -> f b`
 
 Which is shockingly similar to `<$>`'s own type.
-We'll look into this more as we introduce into **Applicative Functors**.
+We'll look into this more as we introduce **Applicative Functors**.
 
 ---
 
