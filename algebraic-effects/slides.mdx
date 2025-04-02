@@ -151,18 +151,28 @@ Again, we can simply use the Functor map.
   We don't want a Promise to a Promise to a <code>balance</code>.
   We simply want a Promise to a <code>balance</code>.
   Fortunately for Promises, this operation is pretty simple:
-  just <Highlight>wait for first, then wait for the second.</Highlight>
+  just <Highlight>wait for the first, then wait for the second.</Highlight>
 </p>
 
 ![](join-promise.svg)
 
 `join` is a function which does just that.
 However, it isn't just for Promises.
-It is defined for all **Monads**.
+All **Monads** must define it.
 You may be surprised by how many Functors are also Monads.
 This is `join`'s type:
 
-> `f (f a) -> f a`, or rephrased, `(f . f) a -> f a`
+<Pass>
+  {anon(function MonadsIntro() {
+    const showContext = !!useSteps(1);
+    const context = showContext ? 'Monad f => ' : '';
+    return (
+      <blockquote>
+        <code>{context}f (f a) -> f a</code>, or rephrased, <code>{context}(f . f) a -> f a</code>
+      </blockquote>
+    );
+  })}
+</Pass>
 
 For another point of reference,
 `join`'ing a list is simply concatenating all inner lists: `join [[], [3], [], [9]] = [3, 9]`
