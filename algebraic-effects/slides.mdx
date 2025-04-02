@@ -4,6 +4,7 @@ import { useSteps } from 'mdx-deck';
 import { Prism as SyntaxHighlight } from 'react-syntax-highlighter';
 import { materialDark as basePrismTheme } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Highlight, Badge } from './Highlight.jsx';
+import { Trans, Reveal, Switcher } from './Animate.jsx';
 import { anon, mkAnon, Pass } from './anonymous.jsx';
 import * as svgs from './svgs.js';
 import slidesTheme from './theme';
@@ -166,7 +167,11 @@ This is `join`'s type:
 <Pass>
   {anon(function MonadsIntro() {
     const showContext = !!useSteps(1);
-    const context = showContext ? 'Monad f => ' : '';
+    const context = (
+      <Reveal reveal={showContext}>
+        {'Monad f => '}
+      </Reveal>
+    );
     return (
       <blockquote>
         <code>{context}f (f a) -> f a</code>, or rephrased, <code>{context}(f . f) a -> f a</code>
@@ -352,52 +357,6 @@ Let's see our three tools (functor mapping, sequencing, and monad joining) in ac
     const lastStepRef = useRef(step);
     const lastStep = lastStepRef.current;
     useEffect(() => { lastStepRef.current = step });
-    const Trans = mkAnon(function SequencingExample_Trans({ children, width, style }) {
-      return (
-        <div style={{
-          display: 'inline flex',
-          transition: 'width 400ms ease-in-out',
-          width: (width ?? children.length) * 16,
-          overflow: 'hidden',
-          whiteSpace: 'nowrap',
-          ...style,
-        }}>
-          {children}
-        </div>
-      );
-    });
-    const Switcher = mkAnon(function SequencingExample_Switch({ children, me: meRef, switchWith, style }) {
-      const [transform, setTransform] = useState({});
-      useEffect(() => {
-        if(switchWith) {
-          if(transform.x) return;
-          const me = meRef.current;
-          const you = switchWith.current;
-          const mine = me.getBoundingClientRect();
-          const yours = you.getBoundingClientRect();
-          setTransform({
-            x: `translateX(${yours.x - mine.x - (mine.width - yours.width)}px)`,
-            up: mine.width > yours.width,
-            style: {
-              width: yours.width,
-            },
-          });
-        } else {
-          if(transform.x) {
-            setTransform({
-              up: !transform.up,
-            });
-          }
-        }
-      }, [switchWith]);
-      return (
-        <div ref={meRef} style={{ ...style, ...transform.style, transform: transform.x, transition: 'width 400ms ease-in-out, transform 400ms ease-in-out' }}>
-          <div className={transform.up === true ? 'up-and-over' : transform.up === false ? 'under-and-over' : ''}>
-            {children}
-          </div>
-        </div>
-      );
-    });
     const div1 = useRef();
     const div2 = useRef();
     const isTrans = step >= 2;
