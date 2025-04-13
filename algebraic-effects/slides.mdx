@@ -478,4 +478,72 @@ We have a bonus function:
 
 ---
 
-# Effects but Algebraic
+# Algebraic Effects
+
+---
+
+# Algebraic Effects
+
+So far we've looked at effects on data.
+Now we focus more on effects on computation.
+
+> Where's the line between "data" and "computation"?
+
+---
+
+# What is algebraic about algebraic effects?
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2em' }}>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '1em' }}>
+    <p>
+      I'm not qualified to answer this question.
+    </p>
+    <p>
+      However, I've learned a bit about what the answer <em>isn't</em>.
+    </p>
+    <ul>
+      <li>The algebraic in effects is <strong>not</strong> like the algebraic in data types.</li>
+      <li>The algebraic in data types refers to sums and products.</li>
+      <li>The algebraic in effects refers to how they are derived from algebraic systems.</li>
+    </ul>
+  </div>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5em' }}>
+    <img src="what-is-algebraic-about-algebraic-effects.png" width={1809} height={1015} />
+    <caption>
+      <em>
+        What's Algebraic About Algebraic Effects and Handlers?
+      </em>
+    </caption>
+    <div style={{ textAlign: 'right' }}>
+      Andrej Bauer
+    </div>
+  </div>
+</div>
+
+---
+
+# Configuration problem
+
+If your entire program is pure functions,
+then all dynamic inputs must be inputs.
+However, passing through many layers <Highlight>can get quite painful!</Highlight>
+In Haskell this is known as the configuration problem.
+
+Ideally a solution would excel in these ways:
+
+- (type) Visibility: Codepaths can make it obvious the envars they require
+- (type) Safety: Verify that codepaths have the envars they require
+- It should not be annoying: busy to write or busy to read
+
+Some other names from other spaces, as well as some solutions:
+
+- Dependency injection
+- POSIX environment variables
+- React context
+- Reader monad
+
+This is a problem people care about.
+
+---
+
+# Error handling

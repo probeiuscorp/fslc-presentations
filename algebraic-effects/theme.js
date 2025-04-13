@@ -45,5 +45,8 @@ export default {
         content: '"\u258A "',
       },
     },
+    img: {
+      height: 'unset',
+    },
   },
 };
