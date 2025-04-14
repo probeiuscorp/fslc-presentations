@@ -482,7 +482,48 @@ We have a bonus function:
 
 ---
 
+# Configuration problem
+
+If your entire program is pure functions,
+then all dynamic inputs must be parameters.
+However, passing through many layers <Highlight>can get quite painful!</Highlight>
+In Haskell this is known as the configuration problem.
+
+Ideally a solution would excel in these ways:
+
+- (type) Visibility: Codepaths can make it obvious the envars they require
+- (type) Safety: Verify that codepaths have the envars they require
+- It should not be annoying: busy to write or busy to read
+
+Some other names from other spaces, as well as some solutions:
+
+- Dependency injection
+- POSIX environment variables
+- React context
+- Reader monad
+
+This is a problem people care about.
+
+---
+
+# Error handling
+
+Another problem people care about is error handling.
+
+Monadic error handling is wonderfully _expressive_,
+but for some/rare errors having to lift our data (into a monad) is excessively verbose.
+
+Almost what we want is `try`–`catch`.
+Maybe Java found a **kernel of truth** here.
+
+---
+
 # Algebraic Effects
+
+In both these problems we want to ...
+without "infecting" the layers between.
+
+We don't want to end up with either Java's unchecked exceptions, or Java's checked exceptions.
 
 So far we've looked at effects on data.
 Now we focus more on effects on computation.
@@ -522,28 +563,20 @@ Now we focus more on effects on computation.
 
 ---
 
-# Configuration problem
+# Koka
 
-If your entire program is pure functions,
-then all dynamic inputs must be inputs.
-However, passing through many layers <Highlight>can get quite painful!</Highlight>
-In Haskell this is known as the configuration problem.
+Generalized algebraic effects are not mainstream (yet?).
+**Koka** and **Eff** are two research languages made to study algebraic effects.
 
-Ideally a solution would excel in these ways:
-
-- (type) Visibility: Codepaths can make it obvious the envars they require
-- (type) Safety: Verify that codepaths have the envars they require
-- It should not be annoying: busy to write or busy to read
-
-Some other names from other spaces, as well as some solutions:
-
-- Dependency injection
-- POSIX environment variables
-- React context
-- Reader monad
-
-This is a problem people care about.
+Let's peek at some of the [documentation](https://koka-lang.github.io/koka/doc/book.html#why).
 
 ---
 
-# Error handling
+# Problem: Ordering
+
+We see that Koka is quite different than the notions of pure functional.
+
+- Koka functions are privileged: regular values cannot have effects
+- Koka has an evaluation order
+
+That last poses the biggest problem if we want algebraic effects in pure functional programming.
