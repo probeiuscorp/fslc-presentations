@@ -514,21 +514,55 @@ Monadic error handling is wonderfully _expressive_,
 but for some/rare errors having to lift our data (into a monad) is excessively verbose.
 
 Almost what we want is `try`–`catch`.
-Maybe Java found a **kernel of truth** here.
+Maybe Java found a **kernel of truth** here?
+
+We'd like to raise an error, and then defer to a handler somewhere higher in the codepath.
+We also don't want to end up with either Java's unchecked exceptions, or Java's checked exceptions.
 
 ---
 
 # Algebraic Effects
 
-In both these problems we want to ...
+In both these problems we want to defer to a handler higher in the codepath
 without "infecting" the layers between.
 
-We don't want to end up with either Java's unchecked exceptions, or Java's checked exceptions.
-
-So far we've looked at effects on data.
-Now we focus more on effects on computation.
-
-> Where's the line between "data" and "computation"?
+<Pass>
+  {anon(function AlgebraicEffectsIntro() {
+    const step = useSteps(3);
+    const lines = step <= 1 ? [
+      'greet = print (perform ask)',
+      step === 0 ? 'main = handle (greet) with' : 'main = greet | handle',
+      '  ask -> resume "Janet"',
+    ] : [
+      'add a b = if isUnrepresentable',
+      '  then perform (err (IntegerAdditionOverflow a b))',
+      '  else a + b',
+      '  where',
+      '    isUnrepresentable = -- detect overflow',
+      '',
+      'main = print (add (add 1 2) 3) | handle',
+      '  err e -> (putStrLn "oh no! addition overflowed:\\n" >>= \\_ -> print e)',
+    ];
+    return (
+      <>
+        <SyntaxHighlight language="haskell" style={prismTheme}>
+          {lines.join('\n')}
+        </SyntaxHighlight>
+        {step >= 3 && (
+          <>
+            <p>
+              If monads can be seen as effects on data,
+              then algebraic effects might be seen as effects on computation.
+            </p>
+            <blockquote>
+              If so, where's the line between "data" and "computation"?
+            </blockquote>
+          </>
+        )}
+      </>
+    );
+  })}
+</Pass>
 
 ---
 
@@ -566,7 +600,8 @@ Now we focus more on effects on computation.
 # Koka
 
 Generalized algebraic effects are not mainstream (yet?).
-**Koka** and **Eff** are two research languages made to study algebraic effects.
+Notably OCaml has them.
+**Koka**, **Frank** and **Eff** are some research languages made to study algebraic effects.
 
 Let's peek at some of the [documentation](https://koka-lang.github.io/koka/doc/book.html#why).
 

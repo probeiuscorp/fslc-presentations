@@ -45,6 +45,10 @@ export default {
         content: '"\u258A "',
       },
     },
+    blockquote: {
+      borderLeft: '6px solid gray',
+      paddingLeft: '1em',
+    },
     img: {
       height: 'unset',
     },
