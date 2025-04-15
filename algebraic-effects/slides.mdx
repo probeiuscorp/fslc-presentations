@@ -607,7 +607,7 @@ Let's peek at some of the [documentation](https://koka-lang.github.io/koka/doc/b
 
 ---
 
-# Problem: Ordering
+# Concerns
 
 We see that Koka is quite different than the notions of pure functional.
 
@@ -615,3 +615,48 @@ We see that Koka is quite different than the notions of pure functional.
 - Koka has an evaluation order
 
 That last poses the biggest problem if we want algebraic effects in pure functional programming.
+
+## More concerns
+
+They are <Highlight>troubling in a few other ways</Highlight> too (in my estimation):
+
+- Most effects can simply be done in monads. Monads require _no_ language support, past basics like Higher Order Types.
+- Explicit typings: are effects specified or inferred? Preferably both, but that's hard to make nice syntactically.
+- They require a _vision_. Implementations offer various _language features_.
+
+---
+
+# Complements, or competitors?
+
+When I started preparing for this presentation I thought they were complements.
+Now my understanding is that algebraic effects are a whole different paradigm.
+
+<Pass>
+  {anon(function Competitors() {
+    const realStep = useSteps(3);
+    const step = [0, 1, 0, 2][realStep];
+    return (
+      <SyntaxHighlight language={['javascript', 'haskell', 'koka'][step]} style={prismTheme}>
+        {[[
+          `async function main() {`,
+          `  const files = await readdir('src')`,
+          `  const contents = await readFile('src/' + files[0])`,
+          `  await writeFile('dist', contents)`,
+          `}`,
+        ], [
+          `main = do`,
+          `  files <- readdir "src"`,
+          `  contents <- readFile ("src/" ++ head files)`,
+          `  writeFile "dist" contents`,
+        ], [
+          `pub fun main()`,
+          `  val files = readdir("src")`,
+          `  val contents = readFile("src/" ++ head(files, { throw("empty") }))`,
+          `  writeFile("dist", contents)`,
+        ]][step].join('\n')}
+      </SyntaxHighlight>
+    );
+  })}
+</Pass>
+
+_Verdict:_ Competitors
