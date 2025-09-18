@@ -17,6 +17,8 @@ nEarths = S Z
 nSidesOfHexagon = S (S (S (S (S (S Z)))))
 ```
 
+<!-- pause -->
+
 - **Cons list**
 
 Simple way of representing singly-linked lists.
@@ -31,6 +33,8 @@ silksongBossesBeaten = Cons "Moss Mother" Nil
 coworkers = Cons "Ceres" (Cons "Jane" (Cons "Anna" (Cons "Mishram" Nil)))
 ```
 
+<!-- pause -->
+
 - **Pattern matching**
 
 ```haskell
@@ -38,6 +42,8 @@ listLength list = case list of
   Nil -> Z
   Cons x xs -> S (listLength xs)
 ```
+
+<!-- pause -->
 
 - **Appending lists**
 
