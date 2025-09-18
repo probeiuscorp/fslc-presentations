@@ -63,10 +63,10 @@ insertPartialReveals :: [String] -> String
 insertPartialReveals = unlines . reverse . join . go [] []
   where
     go :: [[String]] -> [String] -> [String] -> [[String]]
-    go emittedSlides slide = let
-      x = undefined
-      in \case
-        (line:xs) | line == "---" -> go (slide : emittedSlides) [line] xs
-        ("<!-- pause -->":xs) -> go (slide : emittedSlides) slide xs
-        (line:xs) -> go emittedSlides (line:slide) xs
-        [] -> slide : emittedSlides
+    go emittedSlides slide = \case
+      -- Start accumulating slide with empty line so `---` doesn't get misinterpreted into heading
+      -- otherwise author must include newline above every pause
+      (line:xs) | line == "---" -> go (slide : emittedSlides) [line, []] xs
+      ("<!-- pause -->":xs) -> go (slide : emittedSlides) slide xs
+      (line:xs) -> go emittedSlides (line:slide) xs
+      [] -> slide : emittedSlides
