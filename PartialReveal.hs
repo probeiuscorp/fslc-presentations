@@ -60,7 +60,7 @@ main = do
   writeFile outPath $ insertPartialReveals $ lines content
 
 insertPartialReveals :: [String] -> String
-insertPartialReveals = unlines . reverse . join . go [] []
+insertPartialReveals = unlines . reverse . join . go [] ["---"]
   where
     go :: [[String]] -> [String] -> [String] -> [[String]]
     go emittedSlides slide = \case
