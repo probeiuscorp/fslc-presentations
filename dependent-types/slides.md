@@ -1,6 +1,35 @@
 # Dependent Types
 
 Dependent types are a dimension of the lambda cube.
+Formally, dependent types let
+
+> types **depend** on values
+
+That all sounds really academic.
+What does it even mean?
+
+Less formally, dependent types are a powerful tool to
+- eliminate assumptions about our data
+- statically verify our program
+
+<!-- pause -->
+
+## Assumptions are bad
+ - break when you change the program
+ - break when you merge
+ - comments are non standardizable and easily go out of date
+
+We'll contrast progressively powerful type systems, mostly **using TypeScript**:
+
+> C < C++ < Rust < Haskell < Tilly < Calculus of Constructions
+
+<!-- pause -->
+
+## Guaranteees we'd like from types
+
+- If a list is not-empty, can we guarantee its reverse is also non-empty?
+- Can we guarantee some function is commutative?
+- Can we guarantee some function is monotone?
 
 ---
 
@@ -23,7 +52,7 @@ nSidesOfHexagon = S (S (S (S (S (S Z)))))
 
 Simple way of representing singly-linked lists.
 
-We define the zero element list ("Nil").
+We define the empty list ("Nil").
 If we want to add an element to the list,
 we "Cons" that data onto another list.
 
@@ -55,7 +84,45 @@ appendLists listX listY = case listX of
 
 ---
 
-# TypeScript values
+# In TypeScript
+
+```ts
+type Cons<T> = {
+  kind: 'cons',
+  data: T,
+  next: List<T>,
+}
+type Nil = {
+  kind: 'nil',
+}
+type List<T> = Cons<T> | Nil
+
+const cons = <T,>(data: T, next: List<T>) => ({
+  kind: 'cons', data, next,
+})
+const nil = { kind: 'nil' }
+
+const coworkers: List<string> = cons('Ceres', cons('Jane', cons('Anna', cons('Mishram', nil))));
+declare const coworkers: {
+  kind: 'cons',
+  data: 'Ceres',
+  next: {
+    kind: 'cons',
+    data: 'Jane',
+    next: {
+      kind: 'cons',
+      data: 'Anna',
+      next: {
+        kind: 'cons',
+        data: 'Mishram',
+        next: {
+          kind: 'nil',
+        },
+      },
+    },
+  },
+}
+```
 
 ---
 
@@ -77,7 +144,9 @@ declare const xs: Array<number>
 
 ---
 
-# TypeScript introduction
+# Generics, functions, polymorphism
+
+---
 
 # Higher Kinded Types
 
@@ -88,7 +157,5 @@ type Fns<TArg> = {
 type Fn = keyof Fns<unknown>
 type Apply<TFunction extends Fn, TArg> = Fns<TArg>[TFunction]
 ```
-
-# Functions in types
 
 # Computation
