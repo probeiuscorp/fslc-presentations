@@ -12,9 +12,14 @@ Less formally, dependent types are a powerful tool to
 - eliminate assumptions about our data
 - statically verify our program
 
-<!-- pause -->
+## Goals
 
-## Assumptions are bad
+- Approachable for someone who's familiar with any kind of generic types
+- Offer a different way of thinking about types
+
+---
+
+# Assumptions are bad
  - break when you change the program
  - break when you merge
  - comments are non standardizable and easily go out of date
