@@ -1,4 +1,4 @@
-# Dependent Types
+# Intro: Dependent Types
 
 Dependent types are a dimension of the lambda cube.
 Formally, dependent types let
@@ -19,22 +19,30 @@ Less formally, dependent types are a powerful tool to
 
 ---
 
-# Assumptions are bad
+# Intro: Dependent Types
+
+## Guaranteees we'd like from types
+
+- Have we considered dividing by zero?
+- If a list is not-empty, can we guarantee its reverse is also non-empty?
+- Can we guarantee some function is commutative?
+- Can we guarantee some function is monotone?
+
+<!-- pause -->
+
+## Assumptions are bad
  - break when you change the program
  - break when you merge
  - comments are non standardizable and easily go out of date
+
+<!-- pause -->
 
 We'll contrast progressively powerful type systems, mostly **using TypeScript**:
 
 > C < C++ < Rust < Haskell < Tilly < Calculus of Constructions
 
-<!-- pause -->
-
-## Guaranteees we'd like from types
-
-- If a list is not-empty, can we guarantee its reverse is also non-empty?
-- Can we guarantee some function is commutative?
-- Can we guarantee some function is monotone?
+We'll talk about more than just dependent types:
+- **predicate types**
 
 ---
 
