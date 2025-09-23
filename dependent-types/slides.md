@@ -171,4 +171,51 @@ type Fn = keyof Fns<unknown>
 type Apply<TFunction extends Fn, TArg> = Fns<TArg>[TFunction]
 ```
 
-# Computation
+---
+
+# Bonus: Quantification
+
+Let's return briefly to quantification.
+
+- In TypeScript and most mainstream languages, quantification only exists **syntactically** for functions
+
+```typescript
+function id<T>(value: T) {
+  return value;
+}
+```
+
+- **Good** languages (Haskell) let us quantify _any type_
+```haskell
+id :: forall a. a -> a
+id x = x
+```
+
+<!-- pause -->
+
+Functions introduce quantification, but that's not where quantification stops.
+
+```typescript
+type Iso<T, U> = {
+  to: (data: T) => U,
+  from: (data: U) => T,
+}
+const isoNatArr: Iso<number, Array<undefined>> = {
+  to: (length) => Array.from({ length }),
+  from: (ar) => arr.length,
+}
+```
+
+```haskell
+data Iso a b = Iso (a -> b) (b -> a)
+isoNatList = Iso (\len -> replicate len ()) length
+```
+
+<!-- pause -->
+
+But what about an identity `Iso`?
+
+```haskell
+isoId :: forall a. Iso a a
+isoId = Iso id id
+```
