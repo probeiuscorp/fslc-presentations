@@ -229,7 +229,40 @@ type Fns<TArg> = {
 }
 type Fn = keyof Fns<unknown>
 type Apply<TFunction extends Fn, TArg> = Fns<TArg>[TFunction]
+
+---
+
+# Operators
+
+In Haskell we have some computation operators.
+
+```haskell
+nEvens = length . filter even  -- \list -> length (filter even list)
+x2 = f $ g $ a + b -- f (g (a + b))
 ```
+
+We want these operators in the type level too.
+
+<!-- pause -->
+
+* Syntax
+* Standard combinators
+* Infix declarations
+
+<!-- pause -->
+
+**We're basically duplicating our language.**
+Our type system computes just like our value system. So,
+
+> What if types were values?
+
+<!-- pause -->
+
+Languages which work like this have **dependent types**:
+
+* Lean
+* Idris
+* Agda
 
 ---
 
