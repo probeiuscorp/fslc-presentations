@@ -157,11 +157,71 @@ declare const xs: Array<number>
 
 ---
 
-# Generics, functions, polymorphism
+# Type-level computation
+
+Generics types are _functions_, just at the type-level.
+```typescript
+type Id<T> = T
+type DefaultArguments<T1, T2 = T1> = [T1, T2]
+type ConstrainArguments<T extends string> = `${T}.${T}`
+```
+
+<!-- pause -->
+
+**Caveat**: Generic value functions, are **quite different**.
+If you're curious, this is _quantification_.
+```typescript
+function id<T>(value: T): T {
+  return value
+}
+```
+
+<!-- pause -->
+
+TypeScript also offers pattern matching at the type-level:
+```typescript
+type Concat<TListX, TListY> = TListX extends { type: 'cons', head: infer Head, tail: infer Tail }
+  ? { type: 'cons', head: Head, tail: Concat<Tail, TListY> }
+  : ListY
+```
 
 ---
 
 # Higher Kinded Types
+
+Since generic types are functions, we can translate over every concept related to functions.
+
+<!-- pause -->
+
+- **Composition**
+```typescript
+type Compose<F, G> = F<G</* uhm */>>
+// type Compose<F, G> = T => F<G<T>>??
+```
+
+<!-- pause -->
+
+**Oh wait**.
+The arguments to our type-level functions can't be functions themselves.
+Nor can we define lambdas.
+
+<!-- pause -->
+
+This is the same as the value-level concept of **first-class functions**.
+Java until recently did not have first-class functions (Java still sucks).
+
+- functions are regular values
+- functions can be passed as arguments
+- (often) functions can be defined as lambdas
+
+<!-- pause -->
+
+First-class functions at the type-level is known as **having Higher Kinded Types**.
+
+**Very few** languages have Higher Kinded Types (HKT).
+Haskell is one of them, and even it doesn't have HKT lambdas.
+
+<!-- pause -->
 
 ```typescript
 type Fns<TArg> = {
@@ -181,7 +241,7 @@ Let's return briefly to quantification.
 
 ```typescript
 function id<T>(value: T) {
-  return value;
+  return value
 }
 ```
 
@@ -205,6 +265,8 @@ const isoNatArr: Iso<number, Array<undefined>> = {
   from: (ar) => arr.length,
 }
 ```
+
+In Haskell:
 
 ```haskell
 data Iso a b = Iso (a -> b) (b -> a)
