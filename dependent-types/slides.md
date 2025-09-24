@@ -97,6 +97,47 @@ appendLists listX listY = case listX of
 
 ---
 
+# Types prereqs
+
+A type is a set of possible values.
+It lets us safely assume what a value can be.
+```typescript
+declare const x: number;
+
+type Player = {
+  name: string
+  rating: number
+}
+```
+
+<!-- pause -->
+
+When we have a repetitive type, we use generics to have One Source of Truth.
+```typescript
+type Pair<T> = {
+  first: T
+  second: T
+}
+```
+
+<!-- pause -->
+
+Types of just one value are also possible,
+and useful in some languages.
+```typescript
+type Cons<T> = {
+  kind: 'cons'
+  data: T
+  tail: List<T>
+}
+type Nil = {
+  kind: 'nil'
+}
+type List<T> = Cons<T> | Nil
+```
+
+---
+
 # In TypeScript
 
 ```ts
