@@ -221,14 +221,43 @@ First-class functions at the type-level is known as **having Higher Kinded Types
 **Very few** languages have Higher Kinded Types (HKT).
 Haskell is one of them, and even it doesn't have HKT lambdas.
 
+---
+
+# HKT hacks
+
+C doesn't have first class functions, but it _does_ have function pointers.
+
+```c
+int inc(int a) {
+  return a + 1;
+}
+int *arr2 = map(&arr1, len, &inc)
+```
+
+<!-- pause -->
+
+TypeScript is similar.
+It may not have HKTs, but we can do something similar:
+
 <!-- pause -->
 
 ```typescript
 type Fns<TArg> = {
   tuplify: [TArg],
+  array: Array<TArg>,
+  nullish: TArg | null | undefined,
 }
 type Fn = keyof Fns<unknown>
 type Apply<TFunction extends Fn, TArg> = Fns<TArg>[TFunction]
+
+type MapTuple<TArr extends unknown[], TFn extends Fn> =
+  TArr extends [infer Head, ...infer Tail]
+    ? [Apply<TFn, Head>, ...MapTuple<Tail, TFn>]
+    : []
+```
+
+If you want to read more, this is known as
+_lightweight higher-kinded polymorphism_.
 
 ---
 
