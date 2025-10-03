@@ -27,6 +27,7 @@ Less formally, dependent types are a powerful tool to
 - If a list is not-empty, can we guarantee its reverse is also non-empty?
 - Can we guarantee some function is commutative?
 - Can we guarantee some function is monotone?
+- Has this kind of AST node already been handled?
 
 <!-- pause -->
 
@@ -42,7 +43,7 @@ We'll contrast progressively powerful type systems, mostly **using TypeScript**:
 > C < C++ < Rust < Haskell < Tilly < Calculus of Constructions
 
 We'll talk about more than just dependent types:
-- **predicate types**
+- **refinement types**
 
 ---
 
@@ -102,7 +103,7 @@ appendLists listX listY = case listX of
 A type is a set of possible values.
 It lets us safely assume what a value can be.
 ```typescript
-declare const x: number;
+declare const x: number
 
 type Player = {
   name: string
@@ -138,63 +139,9 @@ type List<T> = Cons<T> | Nil
 
 ---
 
-# In TypeScript
+# Examples
 
-```ts
-type Cons<T> = {
-  kind: 'cons',
-  data: T,
-  next: List<T>,
-}
-type Nil = {
-  kind: 'nil',
-}
-type List<T> = Cons<T> | Nil
-
-const cons = <T,>(data: T, next: List<T>) => ({
-  kind: 'cons', data, next,
-})
-const nil = { kind: 'nil' }
-
-const coworkers: List<string> = cons('Ceres', cons('Jane', cons('Anna', cons('Mishram', nil))));
-declare const coworkers: {
-  kind: 'cons',
-  data: 'Ceres',
-  next: {
-    kind: 'cons',
-    data: 'Jane',
-    next: {
-      kind: 'cons',
-      data: 'Anna',
-      next: {
-        kind: 'cons',
-        data: 'Mishram',
-        next: {
-          kind: 'nil',
-        },
-      },
-    },
-  },
-}
-```
-
----
-
-# TypeScript types
-
-Types for JavaScript.
-Type syntax is similar to the Java/C++ family.
-
-An array of numbers:
-```typescript
-const xs: Array<number> = []
-```
-
-In this presentation we'll never actually care about the value of any definition.
-We can specify just the type using `declare`:
-```typescript
-declare const xs: Array<number>
-```
+<!-- just a bunch of examples on -->
 
 ---
 
@@ -248,10 +195,10 @@ Nor can we define lambdas.
 
 <!-- pause -->
 
-This is the same as the value-level concept of **first-class functions**.
+Supporting this is the same as the value-level concept of **first-class functions**.
 Java until recently did not have first-class functions (Java still sucks).
 
-- functions are regular values
+- functions are values like any other
 - functions can be passed as arguments
 - (often) functions can be defined as lambdas
 
@@ -272,7 +219,7 @@ C doesn't have first class functions, but it _does_ have function pointers.
 int inc(int a) {
   return a + 1;
 }
-int *arr2 = map(&arr1, len, &inc)
+int *arr2 = map(&arr1, len, &inc);
 ```
 
 <!-- pause -->
@@ -333,6 +280,34 @@ Languages which work like this have **dependent types**:
 * Lean
 * Idris
 * Agda
+
+---
+
+# Refinement types
+
+Distinct from the lambda cube is refinement types.
+They let us express constraints such as:
+* Zero must be handled before dividing
+* Some list must not be empty
+* Some function must be monotone
+* Some function must be commutative
+
+<!-- pause -->
+
+**Liquid Haskell** is the foremost implementation of refinement types.
+
+---
+
+# Problems
+
+What's the boundary between **structural** and **predicate**?
+
+I'm biased here. I'm working on a language Tilly which tries to solve these problems using structure.
+
+```
+Cons 1 (Cons 2 Nil)
+Cons 1 (Cons 2 (List Nat))
+```
 
 ---
 
