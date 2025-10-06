@@ -9,8 +9,8 @@ That all sounds really academic.
 What does it even mean?
 
 Less formally, dependent types are a powerful tool to
-- eliminate assumptions about our data
 - statically verify our program
+- eliminate assumptions about our data
 
 ## Goals
 
@@ -84,6 +84,9 @@ coworkers = Cons "Ceres" (Cons "Jane" (Cons "Anna" (Cons "Mishram" Nil)))
 listLength list = case list of
   Nil -> Z
   Cons x xs -> S (listLength xs)
+
+listLength friends == Z -- 0
+listLength coworkers == S (S (S (S Z))) -- 4
 ```
 
 <!-- pause -->
@@ -168,8 +171,8 @@ function id<T>(value: T): T {
 
 TypeScript also offers pattern matching at the type-level:
 ```typescript
-type Concat<TListX, TListY> = TListX extends { type: 'cons', head: infer Head, tail: infer Tail }
-  ? { type: 'cons', head: Head, tail: Concat<Tail, TListY> }
+type Concat<TListX, TListY> = TListX extends { kind: 'cons', head: infer Head, tail: infer Tail }
+  ? { kind: 'cons', head: Head, tail: Concat<Tail, TListY> }
   : ListY
 ```
 
@@ -255,7 +258,7 @@ In Haskell we have some computation operators.
 
 ```haskell
 nEvens = length . filter even  -- \list -> length (filter even list)
-x2 = f $ g $ a + b -- f (g (a + b))
+nLines = length $ lines $ lookup contents request  -- length (lines (lookup contents request))
 ```
 
 We want these operators in the type level too.
@@ -281,9 +284,28 @@ Languages which work like this have **dependent types**:
 * Idris
 * Agda
 
+Read more: https://lean-lang.org/functional_programming_in_lean/Programming-with-Dependent-Types/
+
 ---
 
-# Refinement types
+# Dependent types: Examples
+
+See these examples in the Lean docs:
+ - [natOrStringThree](https://lean-lang.org/functional_programming_in_lean/Programming-with-Dependent-Types/)
+ - OfNat
+ - [GetElem](https://lean-lang.org/functional_programming_in_lean/Overloading-and-Type-Classes/Arrays-and-Indexing/#NonEmptyList)
+
+<!-- pause -->
+
+## Trouble in paradise
+
+Dependent types have a few awkward spots:
+- Values and types share the same namespace
+- If Types are values, which then must have types, what type do values of type Type have? **Type 1**.
+
+---
+
+# Bonus: Refinement types
 
 Distinct from the lambda cube is refinement types.
 They let us express constraints such as:
@@ -292,13 +314,11 @@ They let us express constraints such as:
 * Some function must be monotone
 * Some function must be commutative
 
-<!-- pause -->
-
 **Liquid Haskell** is the foremost implementation of refinement types.
 
----
+<!-- pause -->
 
-# Problems
+## Trouble in paradise
 
 What's the boundary between **structural** and **predicate**?
 
