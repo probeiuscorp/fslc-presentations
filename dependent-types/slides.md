@@ -1,11 +1,11 @@
 # Intro: Dependent Types
 
-Dependent types are a dimension of the lambda cube.
+Dependent types are a dimension of the Lambda Cube.
 Formally, dependent types let
 
 > types **depend** on values
 
-That all sounds really academic.
+**That all sounds really academic.**
 What does it even mean?
 
 Less formally, dependent types are a powerful tool to
@@ -240,11 +240,16 @@ type Fns<TArg> = {
 }
 type Fn = keyof Fns<unknown>
 type Apply<TFunction extends Fn, TArg> = Fns<TArg>[TFunction]
+type NumberArray = Apply<'array', number>
+```
 
+<!-- pause -->
+
+```typescript
 type MapTuple<TArr extends unknown[], TFn extends Fn> =
-  TArr extends [infer Head, ...infer Tail]
-    ? [Apply<TFn, Head>, ...MapTuple<Tail, TFn>]
-    : []
+  TArr extends { kind: 'cons', data: infer Head, tail: infer Tail }
+    ? { kind: 'cons', data: Head, tail: MapTuple<Tail, TFn> }
+    : { kind: 'nil' }
 ```
 
 If you want to read more, this is known as
@@ -307,7 +312,7 @@ Dependent types have a few awkward spots:
 
 # Bonus: Refinement types
 
-Distinct from the lambda cube is refinement types.
+Distinct from the Lambda Cube is refinement types.
 They let us express constraints such as:
 * Zero must be handled before dividing
 * Some list must not be empty
@@ -360,7 +365,7 @@ type Iso<T, U> = {
 }
 const isoNatArr: Iso<number, Array<undefined>> = {
   to: (length) => Array.from({ length }),
-  from: (ar) => arr.length,
+  from: (arr) => arr.length,
 }
 ```
 
