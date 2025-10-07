@@ -44,6 +44,7 @@ We'll contrast progressively powerful type systems, mostly **using TypeScript**:
 
 We'll talk about more than just dependent types:
 - **refinement types**
+- **quantification**
 
 ---
 
@@ -239,7 +240,7 @@ type Fns<TArg> = {
   nullish: TArg | null | undefined,
 }
 type Fn = keyof Fns<unknown>
-type Apply<TFunction extends Fn, TArg> = Fns<TArg>[TFunction]
+type Apply<TFn extends Fn, TArg> = Fns<TArg>[TFn]
 type NumberArray = Apply<'array', number>
 ```
 
@@ -267,8 +268,6 @@ nLines = length $ lines $ lookup contents request  -- length (lines (lookup cont
 ```
 
 We want these operators in the type level too.
-
-<!-- pause -->
 
 * Syntax
 * Standard combinators
@@ -329,9 +328,9 @@ What's the boundary between **structural** and **predicate**?
 
 I'm biased here. I'm working on a language Tilly which tries to solve these problems using structure.
 
-```
-Cons 1 (Cons 2 Nil)
-Cons 1 (Cons 2 (List Nat))
+```haskell
+twoElementList :: Cons 1 (Cons 2 Nil)
+atLeastTwoElementList :: Cons 1 (Cons 2 (List Nat))
 ```
 
 ---
