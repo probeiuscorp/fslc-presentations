@@ -127,8 +127,7 @@ type Pair<T> = {
 
 <!-- pause -->
 
-Types of just one value are also possible,
-and useful in some languages.
+Types of just one value are also possible and useful.
 ```typescript
 type Cons<T> = {
   kind: 'cons'
@@ -140,12 +139,6 @@ type Nil = {
 }
 type List<T> = Cons<T> | Nil
 ```
-
----
-
-# Examples
-
-<!-- just a bunch of examples on -->
 
 ---
 
