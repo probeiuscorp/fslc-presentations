@@ -1,4 +1,4 @@
-module Split (split) where
+module Split (split, mapAdjacent) where
 
 -- | Unfortunately not part of the Haskell prelude!
 -- which is insane given how big the prelude is...

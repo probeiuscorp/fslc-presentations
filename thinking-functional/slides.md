@@ -1,9 +1,9 @@
 # Thinking functional
 
 This presentation will have three main parts
-- An introduction to lambda calculus, to get a feel for it
-- Follow-along coding in the functional language Haskell to sell its power
-- A look through some common tools to see the functional mindset
+- An introduction to **lambda calculus**, to get a feel for it
+- Follow-along coding in the functional language **Haskell** to sell its power
+- A look through some **common tools** to see the functional mindset
 
 ## Goals
 
@@ -61,9 +61,57 @@ Let's do some pen and paper computation.
 <!-- pause -->
 - **Omega combinator**. (λx. x x) (λx. x x) -- expression that cannot be reduced
 <!-- pause -->
-- **Product types**.
+- **Product types** and **Sum types**. These are definitely worth looking into if "functions are data" intrigues you.
+
+---
+
+# Example: Addition
+
+> SUM_NATS TWO ONE
+
+---
+
+# Example: Addition
+
+> SUM_NATS TWO (λf a. f a)
+
+---
+
+# Example: Addition
+
+> SUM_NATS (λf a. f (f a)) (λf a. f a)
+
+---
+
+# Example: Addition
+
+> (λn m. n SUCC m) (λf a. f (f a)) (λf a. f a)
 <!-- pause -->
-- **Sum types**.
+> (λm. (λf a. f (f a)) SUCC m) (λf a. f a)
+<!-- pause -->
+> (λf a. f (f a)) SUCC (λf a. f a)
+<!-- pause -->
+> (λa. SUCC (SUCC a)) (λf a. f a)
+<!-- pause -->
+> SUCC (SUCC (λf a. f a))
+<!-- pause -->
+> SUCC ((λn. λf a. f (n f a)) (λf a. f a))
+<!-- pause -->
+> SUCC ((λf a. f ((λf a. f a) f a)))
+<!-- pause -->
+> SUCC ((λf a. f (f a)))
+<!-- pause -->
+> SUCC (λf a. f (f a))
+<!-- pause -->
+> (λn. λf a. f (n f a)) (λf a. f (f a))
+<!-- pause -->
+> (λf a. f ((λf a. f (f a)) f a))
+<!-- pause -->
+> (λf a. f ((f (f a))))
+<!-- pause -->
+> λf a. f (f (f a))
+<!-- pause -->
+> THREE
 ---
 
 # Functional programming languages
@@ -87,8 +135,22 @@ Lean is based off the Calculus of Constructions.
 
 Haskell is my favorite language (~~that I'm not making~~).
 
-- https://play.haskell.org/
 - https://www.haskell.org/get-started/
+- https://play.haskell.org/
+
+If you'd like, please code along!
+Install Haskell or try the online version, and
+git clone the demo and navigate to **thinking-functional/**:
+
+> https://github.com/probeiuscorp/fslc-presentations
+
+<!-- pause -->
+
+## IO
+
+We'll see a bit of IO in Haskell, but that is far from the focus of this presentation.
+
+> Haskell doesn't have _side effects_, but that doesn't mean it can't have _external effects_.
 
 ---
 
