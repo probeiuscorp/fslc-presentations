@@ -1,14 +1,31 @@
 # Thinking functional
 
-This presentation will have three main parts
+This presentation will have three main parts:
 - An introduction to **lambda calculus**, to get a feel for it
-- Follow-along coding in the functional language **Haskell** to sell its power
+- Code-along in the functional language **Haskell** to sell its power
 - A look through some **common tools** to see the functional mindset
 
-## Goals
+## Goal
 
-- Show how to NOT think imperatively
-- Show how to think functionally
+The goal of the presentation is to show how to think functionally!
+
+You don't need to become an expert or even comfortable in lambda calculus or Haskell.
+I want to raise awareness that there's a different way to do computation,
+from there if you feel inspired I'd love it if you looked into Haskell more.
+Trying Haskell is the way to seriously learn functional programming
+(and how wonderful it is!)
+
+## Haskell
+
+This presentation features a code-along in Haskell.
+If you'd like to participate you can
+
+- Install Haskell at https://haskell.org/get-started/
+- Try it online at https://play.haskell.org/saved/U97CJahX/
+
+You'll also need the starter code.
+Clone it at https://github.com/probeiuscorp/fslc-dependent-types
+and find it in **thinking-functional/demo/**.
 
 ---
 
@@ -67,24 +84,42 @@ Let's do some pen and paper computation.
 
 # Example: Addition
 
+First let's define a little helper.
+> SUCC = λn. λf a. f (n f a)
+
+<!-- pause -->
+
+We're now ready to compute `2 + 1`:
 > SUM_NATS TWO ONE
 
 ---
 
 # Example: Addition
 
+First let's define a little helper.
+> SUCC = λn. λf a. f (n f a)
+
+We're now ready to compute `2 + 1`:
 > SUM_NATS TWO (λf a. f a)
 
 ---
 
 # Example: Addition
 
+First let's define a little helper.
+> SUCC = λn. λf a. f (n f a)
+
+We're now ready to compute `2 + 1`:
 > SUM_NATS (λf a. f (f a)) (λf a. f a)
 
 ---
 
 # Example: Addition
 
+First let's define a little helper.
+> SUCC = λn. λf a. f (n f a)
+
+We're now ready to compute `2 + 1`:
 > (λn m. n SUCC m) (λf a. f (f a)) (λf a. f a)
 <!-- pause -->
 > (λm. (λf a. f (f a)) SUCC m) (λf a. f a)
