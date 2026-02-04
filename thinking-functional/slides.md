@@ -24,8 +24,9 @@ If you'd like to participate you can
 - Try it online at https://play.haskell.org/saved/U97CJahX/
 
 You'll also need the starter code.
-Clone it at https://github.com/probeiuscorp/fslc-dependent-types
-and find it in **thinking-functional/demo/**.
+Clone the demo and find it in **thinking-functional/demo/**.
+
+> git clone https://github.com/probeiuscorp/fslc-presentations
 
 ---
 
@@ -134,15 +135,11 @@ We're now ready to compute `2 + 1`:
 <!-- pause -->
 > SUCC ((λf a. f ((λf a. f a) f a)))
 <!-- pause -->
-> SUCC ((λf a. f (f a)))
-<!-- pause -->
 > SUCC (λf a. f (f a))
 <!-- pause -->
 > (λn. λf a. f (n f a)) (λf a. f (f a))
 <!-- pause -->
 > (λf a. f ((λf a. f (f a)) f a))
-<!-- pause -->
-> (λf a. f ((f (f a))))
 <!-- pause -->
 > λf a. f (f (f a))
 <!-- pause -->
@@ -171,13 +168,13 @@ Lean is based off the Calculus of Constructions.
 Haskell is my favorite language (~~that I'm not making~~).
 
 - https://www.haskell.org/get-started/
-- https://play.haskell.org/
+- https://play.haskell.org/saved/U97CJahX/
 
 If you'd like, please code along!
 Install Haskell or try the online version, and
 git clone the demo and navigate to **thinking-functional/**:
 
-> https://github.com/probeiuscorp/fslc-presentations
+> git clone https://github.com/probeiuscorp/fslc-presentations
 
 <!-- pause -->
 
@@ -191,11 +188,47 @@ We'll see a bit of IO in Haskell, but that is far from the focus of this present
 
 # Functional principle in action
 
-- Git
-- React
-- NixOS
+Functional principles aren't just relevant to the functional programming languages!
+
+<!-- pause -->
+
+## Git
+
+Git tracks the history of files.
+Each snapshot of your files is a commit,
+where your whole history is a chain of commits all the way back to the very start.
+
+Git commits are immutable.
+This simplifies both the user model and program model.
+
+<!-- pause -->
+
+## React
+
+The basic, original idea that spawned React was to 'fix' web rendering in the PHP-JS model.
+
+In React pseudo-HTML is defined as a function of state.
+When state changes, the React reconciler compares the new pseudo-HTML with the last pseudo-HTML.
+
+> **Reconciler**: takes old state and the proposed new state, then yields the external effects to realize that transition
+
+<!-- pause -->
+
+## NixOS
+
+Having to switch to a new laptop or computer is typically quite scary,
+as you have to remember which software you've installed and what configs you've changed.
+NixOS attempts to solve this problem by describing your entire system configuration in files
+-- to add packages you change that build file, instead of running a command to install it.
+
+The idea is you can then copy entire setups and states between computers,
+and revert to old versions of your setup easily.
+
+To do this efficiently, NixOS also features something similar to a "reconciler".
 
 ---
+
+# It's the end!
 
 If you're interested in functional programming, there's two ways I'd recommend
 
