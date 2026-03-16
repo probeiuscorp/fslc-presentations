@@ -56,6 +56,7 @@ Git offers many advantages even for the solo developer:
 For this presentation though we're interested in how Git aids collaboration.
 
 To collaborate via Git, the most basic approach is to
+<!-- pause -->
 1. have a `main` branch
 <!-- pause -->
 2. everyone picks up features and makes a branch for each one
@@ -95,3 +96,20 @@ but typically most people have just one remote — `origin`.
 All developers
 - push their ready work to `origin`, and
 - regularly pull from `origin` to get updates from others.
+
+---
+
+# Open source
+
+Open source projects however can't just give everyone push access.
+
+Most projects will instead have prospective contributors
+<!-- pause -->
+- _fork_ (clone) the open source repository (creating their own origin)
+<!-- pause -->
+- push-pull to their fork while working
+<!-- pause -->
+- make a pull request from their fork to the open source project when done
+<!-- pause -->
+
+This is often called the GitHub model.
