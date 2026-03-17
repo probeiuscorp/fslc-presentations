@@ -120,3 +120,21 @@ It is good to remember that many projects do not work this way.
 The Linux kernel is probably the most notable.
 
 For the Linux kernel patches are instead sent by email to subsystem maintainers who then forward the patch along up the chain.
+
+---
+
+# Putting it all together
+
+If you'd like to contribute to the FSLC Sudoku game, clone this repository!
+
+> git clone https://github.com/probieuscorp/fslc-sudoku.git
+
+<!-- pause -->
+
+There's some outstanding work I need your help to finish:
+
+- functions to access Sudoku board in different ways (beginner JS arrays)
+- handling of events to let user update the board (beginner JS events)
+- track the initial cells, forbidding changes to them (intermediate, cross-cutting)
+- check validity of Sudoku board (intermediate JS arrays)
+- making the border for 3x3 subgrids thicker (intermediate CSS selectors)

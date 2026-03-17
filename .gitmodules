@@ -1,0 +1,3 @@
+[submodule "contributing-with-git/demo/sudoku"]
+	path = contributing-with-git/demo/sudoku
+	url = https://github.com/probeiuscorp/fslc-sudoku.git
