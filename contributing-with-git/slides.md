@@ -112,4 +112,11 @@ Most projects will instead have prospective contributors
 - make a pull request from their fork to the open source project when done
 <!-- pause -->
 
-This is often called the GitHub model.
+This is often called the GitHub model, or more precisely the **software forge** model.
+
+<!-- pause -->
+
+It is good to remember that many projects do not work this way.
+The Linux kernel is probably the most notable.
+
+For the Linux kernel patches are instead sent by email to subsystem maintainers who then forward the patch along up the chain.
