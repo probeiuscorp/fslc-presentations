@@ -1,10 +1,6 @@
 # Contributing with Git
 
-## Goals
-
-## Non-goals
-
-- Comprehensive
+_One goal of this presentation is to make clear the difference between git and github._
 
 ---
 
@@ -124,6 +120,10 @@ For the Linux kernel patches are instead sent by email to subsystem maintainers 
 ---
 
 # Putting it all together
+
+---
+
+# Sudoku
 
 If you'd like to contribute to the FSLC Sudoku game, clone this repository!
 
