@@ -2,6 +2,10 @@
 
 _One goal of this presentation is to make clear the difference between git and github._
 
+Get prepared to write some code!
+ - install git
+ - have your favorite code editor ready
+
 ---
 
 # Git basics
